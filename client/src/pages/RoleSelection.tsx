@@ -13,16 +13,22 @@ export default function RoleSelection() {
     // Clear any previous state
     if (typeof window !== 'undefined') {
       localStorage.removeItem('truckerFinanceUser');
+      
+      if (role === 'company') {
+        // Special handling for Company Driver - set a flag in sessionStorage
+        sessionStorage.setItem('selectedCompany', 'true');
+        console.log("Set selectedCompany flag in sessionStorage");
+      } else {
+        sessionStorage.removeItem('selectedCompany');
+      }
     }
     
-    // Set the role (which now also updates localStorage directly)
+    // Set the role in context
     setRole(role);
     
-    // Add a longer delay to ensure state is updated before navigation
-    setTimeout(() => {
-      console.log("Navigating to dashboard with role:", role);
-      setLocation("/dashboard");
-    }, 500);
+    // Navigate to dashboard
+    console.log("Navigating to dashboard with role:", role);
+    setLocation("/dashboard");
   };
 
   return (

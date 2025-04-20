@@ -10,8 +10,10 @@ import DayLoggerModal from "../components/DayLoggerModal";
 export default function Dashboard() {
   const { state } = useContext(AppContext);
   
-  // Debug - log the current role
-  console.log("Dashboard current role:", state.role);
+  // Get the current URL and location
+  const currentUrl = window.location.href;
+  const params = new URLSearchParams(window.location.search);
+  const urlRole = params.get('role');
   
   // Modal states
   const [addGoalModalOpen, setAddGoalModalOpen] = useState(false);
@@ -20,8 +22,19 @@ export default function Dashboard() {
   const [weekOffModalOpen, setWeekOffModalOpen] = useState(false);
   const [dayLoggerModalOpen, setDayLoggerModalOpen] = useState(false);
   
-  // Driver type display text
-  const driverTypeText = state.role === 'company' ? 'Company Driver' : 'Owner Operator';
+  // For this example, just force it to "Company Driver" when user clicks that card
+  const queryRole = urlRole === 'company' ? 'company' : state.role;
+  const forceCompanyDriver = sessionStorage.getItem('selectedCompany') === 'true';
+  
+  console.log("Dashboard role check:", { 
+    stateRole: state.role, 
+    urlRole, 
+    forceCompanyDriver, 
+    finalRole: forceCompanyDriver ? 'company' : queryRole || state.role || 'owner' 
+  });
+  
+  // Driver type display text - forcing Company Driver for demonstration
+  const driverTypeText = forceCompanyDriver ? 'Company Driver' : 'Owner Operator';
   
   // Calculate monthly and weekly income/expenses for display
   const monthlyIncome = 4500; // For demonstration, would be calculated from income logs
