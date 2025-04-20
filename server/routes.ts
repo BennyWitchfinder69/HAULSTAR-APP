@@ -172,6 +172,100 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to create income log" });
     }
   });
+  
+  // Pay structures API routes
+  app.get("/api/users/:userId/pay-structures", async (req, res) => {
+    const userId = parseInt(req.params.userId);
+    const payStructures = await storage.getPayStructuresByUserId(userId);
+    res.json(payStructures);
+  });
+  
+  app.post("/api/pay-structures", async (req, res) => {
+    try {
+      const payStructureData = insertPayStructureSchema.parse(req.body);
+      const payStructure = await storage.createPayStructure(payStructureData);
+      res.status(201).json(payStructure);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({ message: fromZodError(error).message });
+      }
+      res.status(500).json({ message: "Failed to create pay structure" });
+    }
+  });
+  
+  app.patch("/api/pay-structures/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const payStructureData = insertPayStructureSchema.partial().parse(req.body);
+      
+      const payStructure = await storage.updatePayStructure(id, payStructureData);
+      
+      if (!payStructure) {
+        return res.status(404).json({ message: "Pay structure not found" });
+      }
+      
+      res.json(payStructure);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({ message: fromZodError(error).message });
+      }
+      res.status(500).json({ message: "Failed to update pay structure" });
+    }
+  });
+  
+  app.patch("/api/pay-structures/:id/toggle", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const schema = z.object({ isActive: z.boolean() });
+      const { isActive } = schema.parse(req.body);
+      
+      const payStructure = await storage.togglePayStructureActive(id, isActive);
+      
+      if (!payStructure) {
+        return res.status(404).json({ message: "Pay structure not found" });
+      }
+      
+      res.json(payStructure);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({ message: fromZodError(error).message });
+      }
+      res.status(500).json({ message: "Failed to toggle pay structure" });
+    }
+  });
+  
+  app.delete("/api/pay-structures/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    const success = await storage.deletePayStructure(id);
+    
+    if (!success) {
+      return res.status(404).json({ message: "Pay structure not found" });
+    }
+    
+    res.status(204).send();
+  });
+  
+  // User settings routes
+  app.patch("/api/users/:id/settings", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const schema = z.object({ hideIncome: z.boolean() });
+      const { hideIncome } = schema.parse(req.body);
+      
+      const user = await storage.updateUserSettings(id, hideIncome);
+      
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      res.json(user);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({ message: fromZodError(error).message });
+      }
+      res.status(500).json({ message: "Failed to update user settings" });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;

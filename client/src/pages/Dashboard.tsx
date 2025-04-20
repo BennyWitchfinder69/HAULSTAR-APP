@@ -6,9 +6,10 @@ import AddExpenseModal from "../components/AddExpenseModal";
 import WhatIfModal from "../components/WhatIfModal";
 import WeekOffModal from "../components/WeekOffModal";
 import DayLoggerModal from "../components/DayLoggerModal";
+import PayStructureModal from "../components/PayStructureModal";
 
 export default function Dashboard() {
-  const { state } = useContext(AppContext);
+  const { state, toggleHideIncome } = useContext(AppContext);
   
   // Get the current URL and location
   const currentUrl = window.location.href;
@@ -21,6 +22,7 @@ export default function Dashboard() {
   const [whatIfModalOpen, setWhatIfModalOpen] = useState(false);
   const [weekOffModalOpen, setWeekOffModalOpen] = useState(false);
   const [dayLoggerModalOpen, setDayLoggerModalOpen] = useState(false);
+  const [payStructureModalOpen, setPayStructureModalOpen] = useState(false);
   
   // For this example, just force it to "Company Driver" when user clicks that card
   const queryRole = urlRole === 'company' ? 'company' : state.role;
@@ -50,8 +52,21 @@ export default function Dashboard() {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">{driverTypeText}</h2>
           <div className="text-right">
+            <div className="flex items-center justify-end mb-1">
+              <span className="text-xs text-neutral-500 mr-2">Hide Income</span>
+              <button 
+                onClick={() => toggleHideIncome(!state.hideIncome)} 
+                className={`w-8 h-4 rounded-full transition-colors duration-200 ease-in-out ${state.hideIncome ? 'bg-primary' : 'bg-neutral-300'} relative`}
+              >
+                <span 
+                  className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-transform duration-200 ease-in-out ${state.hideIncome ? 'translate-x-4' : ''}`}
+                />
+              </button>
+            </div>
             <p className="text-neutral-500 text-sm">Available Cash</p>
-            <p className="text-2xl font-bold text-primary">${state.availableCash.toFixed(2)}</p>
+            <p className="text-2xl font-bold text-primary">
+              {state.hideIncome ? '****' : `$${state.availableCash.toFixed(2)}`}
+            </p>
           </div>
         </div>
         
@@ -104,18 +119,48 @@ export default function Dashboard() {
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold">Income</h3>
             <button 
-              onClick={() => alert("Add Income feature would go here")}
+              onClick={() => setPayStructureModalOpen(true)}
               className="text-primary hover:text-blue-700 p-1"
+              title="Add Pay Structure"
             >
               <span className="material-icons">add_circle</span>
             </button>
           </div>
           
-          <div className="text-center py-6">
+          <div className="text-center py-4">
             <p className="text-neutral-500 text-sm">Monthly Average</p>
-            <p className="text-2xl font-bold text-success">${monthlyIncome.toFixed(0)}</p>
-            <p className="text-neutral-500 text-sm">${weeklyIncome.toFixed(0)} weekly</p>
+            <p className="text-2xl font-bold text-success">
+              {state.hideIncome ? '****' : `$${monthlyIncome.toFixed(0)}`}
+            </p>
+            <p className="text-neutral-500 text-sm">
+              {state.hideIncome ? '****' : `$${weeklyIncome.toFixed(0)}`} weekly
+            </p>
           </div>
+          
+          {/* Display Pay Structures */}
+          {state.payStructures.length > 0 ? (
+            <div className="mt-2 mb-2 border-t border-neutral-100 pt-2">
+              <p className="text-sm font-medium mb-1">Pay Structures:</p>
+              <div className="space-y-1">
+                {state.payStructures.map(pay => (
+                  <div key={pay.id} className="flex justify-between items-center text-sm">
+                    <span className="text-neutral-700">
+                      {pay.payType === 'hourly' ? 'Hourly' : 
+                       pay.payType === 'per_mile' ? 'Per Mile' :
+                       pay.payType === 'per_load' ? 'Per Load' :
+                       pay.payType === 'bonus' ? 'Bonus' : 'Other'}
+                    </span>
+                    <span className="font-medium">${parseFloat(pay.rate.toString()).toFixed(2)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="mt-2 mb-2 border-t border-neutral-100 pt-2 text-center text-neutral-500 text-sm">
+              <p>No pay structures defined</p>
+              <p className="text-xs text-primary">Click + to add your pay rates</p>
+            </div>
+          )}
           
           <button 
             onClick={() => setDayLoggerModalOpen(true)} 
@@ -219,6 +264,7 @@ export default function Dashboard() {
       <WhatIfModal isOpen={whatIfModalOpen} onClose={() => setWhatIfModalOpen(false)} appState={state} />
       <WeekOffModal isOpen={weekOffModalOpen} onClose={() => setWeekOffModalOpen(false)} appState={state} />
       <DayLoggerModal isOpen={dayLoggerModalOpen} onClose={() => setDayLoggerModalOpen(false)} />
+      <PayStructureModal isOpen={payStructureModalOpen} onClose={() => setPayStructureModalOpen(false)} />
     </section>
   );
 }
