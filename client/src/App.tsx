@@ -14,7 +14,16 @@ import MobileNav from "./components/MobileNav";
 
 function Router() {
   const [location] = useLocation();
-  const { state } = useContext(AppContext);
+  const { state, resetAppState } = useContext(AppContext);
+  
+  // Reset app state when visiting welcome screen to ensure clean state
+  useEffect(() => {
+    if (location === "/") {
+      // Reset app state when visiting welcome screen
+      localStorage.removeItem('truckerFinanceUser');
+      console.log("Resetting app state for welcome screen");
+    }
+  }, [location]);
   
   // If user already has a role, redirect to dashboard
   useEffect(() => {
