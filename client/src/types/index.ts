@@ -11,6 +11,8 @@ export interface Goal {
   amount: number;
   saved: number;
   progress: number;
+  priority?: number;
+  isActive?: boolean;
   deadline?: string;
 }
 
@@ -40,6 +42,7 @@ export interface Expense {
   frequency: ExpenseFrequency;
   monthly: number;
   category: ExpenseCategory;
+  isActive?: boolean;
   createdAt: string;
 }
 
@@ -57,6 +60,18 @@ export interface IncomeLog {
 // What-if period type
 export type WhatIfPeriod = 'day' | 'week' | 'month';
 
+// Pay type
+export type PayType = 'hourly' | 'per_mile' | 'per_load' | 'bonus' | 'other';
+
+// Pay structure type
+export interface PayStructure {
+  id: string;
+  payType: PayType;
+  rate: number;
+  description?: string;
+  isActive?: boolean;
+}
+
 // User state
 export interface AppState {
   signedIn: boolean;
@@ -64,7 +79,9 @@ export interface AppState {
   goals: Goal[];
   expenses: Expense[];
   income: IncomeLog[];
+  payStructures: PayStructure[];
   availableCash: number;
+  hideIncome: boolean;
 }
 
 // Add goal form data
@@ -112,4 +129,11 @@ export interface WhatIfResult {
   goals: number;
   remaining: number;
   weekOffProgress: number;
+}
+
+// Pay structure form data
+export interface PayStructureFormData {
+  payType: PayType;
+  rate: number;
+  description?: string;
 }
