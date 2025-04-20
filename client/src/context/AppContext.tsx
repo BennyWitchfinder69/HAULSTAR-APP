@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState, ReactNode } from "react";
-import { AppState, Goal, Expense, IncomeLog, UserRole, ExpenseFrequency, ExpenseCategory } from "../types";
+import { AppState, Goal, Expense, IncomeLog, UserRole, ExpenseFrequency, ExpenseCategory, PayType, PayStructure } from "../types";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { normalizeExpense } from "../utils/calculations";
 
@@ -19,7 +19,9 @@ const initialState: AppState = {
   goals: [defaultWeekOffGoal],
   expenses: [],
   income: [],
+  payStructures: [],
   availableCash: 500,
+  hideIncome: false,
 };
 
 interface AppContextType {
@@ -29,7 +31,9 @@ interface AppContextType {
   addGoal: (name: string, amount: number, deadline?: string) => void;
   addExpense: (name: string, amount: number, frequency: ExpenseFrequency, category: ExpenseCategory) => void;
   logDailyActivity: (miles: number | undefined, loads: number | undefined, hours: number | undefined, income: number, notes?: string) => void;
+  addPayRate: (payType: PayType, rate: number, description?: string) => void;
   updateCash: (amount: number) => void;
+  toggleHideIncome: (hide: boolean) => void;
   resetAppState: () => void;
 }
 
@@ -40,7 +44,9 @@ export const AppContext = createContext<AppContextType>({
   addGoal: () => {},
   addExpense: () => {},
   logDailyActivity: () => {},
+  addPayRate: () => {},
   updateCash: () => {},
+  toggleHideIncome: () => {},
   resetAppState: () => {},
 });
 
@@ -145,6 +151,28 @@ export function AppProvider({ children }: AppProviderProps) {
     }));
   };
 
+  const addPayRate = (payType: PayType, rate: number, description?: string) => {
+    const newPayStructure: PayStructure = {
+      id: Date.now().toString(),
+      payType,
+      rate,
+      description,
+      isActive: true,
+    };
+
+    setState((prevState) => ({
+      ...prevState,
+      payStructures: [...prevState.payStructures, newPayStructure],
+    }));
+  };
+  
+  const toggleHideIncome = (hide: boolean) => {
+    setState((prevState) => ({
+      ...prevState,
+      hideIncome: hide,
+    }));
+  };
+
   const resetAppState = () => {
     // Clear any stored state completely
     if (typeof window !== 'undefined') {
@@ -162,7 +190,9 @@ export function AppProvider({ children }: AppProviderProps) {
         addGoal,
         addExpense,
         logDailyActivity,
+        addPayRate,
         updateCash,
+        toggleHideIncome,
         resetAppState,
       }}
     >

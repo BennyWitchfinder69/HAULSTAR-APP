@@ -550,6 +550,4 @@ export class DatabaseStorage implements IStorage {
 }
 
 // Use Database Storage instead of MemStorage
-import { db } from "./db";
-import { eq, and, desc } from "drizzle-orm";
 export const storage = new DatabaseStorage();

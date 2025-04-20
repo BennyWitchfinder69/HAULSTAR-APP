@@ -14,11 +14,9 @@ interface PayStructureModalProps {
   onClose: () => void;
 }
 
-type PayFormData = {
-  payType: "hourly" | "per_mile" | "per_load" | "bonus" | "other";
-  rate: number;
-  description: string;
-};
+import { PayStructureFormData, PayType } from "../types";
+
+type PayFormData = PayStructureFormData;
 
 export default function PayStructureModal({ isOpen, onClose }: PayStructureModalProps) {
   const { addPayRate } = useContext(AppContext);
