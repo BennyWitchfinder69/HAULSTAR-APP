@@ -62,14 +62,23 @@ export function AppProvider({ children }: AppProviderProps) {
   };
 
   const setRole = (role: UserRole) => {
-    // Force a clear state and set the new role
+    // Force a clean reset and set the new role
     console.log("Setting role to:", role);
-    setState((prevState) => ({ 
-      ...prevState, 
-      role,
-      // Reset any potential role-specific settings
-      expenses: prevState.expenses.length === 0 ? [] : prevState.expenses,
-    }));
+    
+    // Create a new clean state with just the role
+    const newState = {
+      ...initialState,
+      role: role,
+      signedIn: true
+    };
+    
+    console.log("New state with role:", newState);
+    setState(newState);
+    
+    // Force update localStorage directly as well
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('truckerFinanceUser', JSON.stringify(newState));
+    }
   };
 
   const addGoal = (name: string, amount: number, deadline?: string) => {

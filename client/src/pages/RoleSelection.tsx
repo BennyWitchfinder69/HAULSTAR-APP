@@ -8,15 +8,21 @@ export default function RoleSelection() {
   const [, setLocation] = useLocation();
 
   const handleRoleSelection = (role: UserRole) => {
-    console.log("Selected role:", role);
-    // Clear any previous state first
-    localStorage.removeItem('truckerFinanceUser');
-    // Set the new role
+    console.log("Selection handler for role:", role);
+    
+    // Clear any previous state
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('truckerFinanceUser');
+    }
+    
+    // Set the role (which now also updates localStorage directly)
     setRole(role);
-    // Navigate to dashboard after a short delay to ensure state updates
+    
+    // Add a longer delay to ensure state is updated before navigation
     setTimeout(() => {
+      console.log("Navigating to dashboard with role:", role);
       setLocation("/dashboard");
-    }, 100);
+    }, 500);
   };
 
   return (

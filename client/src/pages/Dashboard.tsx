@@ -10,6 +10,9 @@ import DayLoggerModal from "../components/DayLoggerModal";
 export default function Dashboard() {
   const { state } = useContext(AppContext);
   
+  // Debug - log the current role
+  console.log("Dashboard current role:", state.role);
+  
   // Modal states
   const [addGoalModalOpen, setAddGoalModalOpen] = useState(false);
   const [addExpenseModalOpen, setAddExpenseModalOpen] = useState(false);
