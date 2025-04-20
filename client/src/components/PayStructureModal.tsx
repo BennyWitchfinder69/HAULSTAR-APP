@@ -56,7 +56,18 @@ export default function PayStructureModal({ isOpen, onClose }: PayStructureModal
       case "hourly": return "Hourly Rate ($)";
       case "per_mile": return "Per Mile Rate ($)";
       case "per_load": return "Per Load Rate ($)";
-      case "bonus": return "Bonus Amount ($)";
+      case "percentage": return "Percentage of Load (%)";
+      case "daily_rate": return "Daily Rate ($)";
+      case "salary": return "Salary Amount ($)";
+      case "hazmat": return "Hazmat Bonus ($)";
+      case "detention": return "Detention Rate ($/hr)";
+      case "layover": return "Layover Pay ($)";
+      case "stop_pay": return "Pay Per Stop ($)";
+      case "accessorial": return "Accessorial Pay ($)";
+      case "performance": return "Performance Bonus ($)";
+      case "safety": return "Safety Bonus ($)";
+      case "fuel_bonus": return "Fuel Bonus ($)";
+      case "referral": return "Referral Bonus ($)";
       default: return "Rate ($)";
     }
   };
@@ -66,7 +77,18 @@ export default function PayStructureModal({ isOpen, onClose }: PayStructureModal
       case "hourly": return "e.g., 25.50";
       case "per_mile": return "e.g., 0.55";
       case "per_load": return "e.g., 250.00";
-      case "bonus": return "e.g., 500.00";
+      case "percentage": return "e.g., 75";
+      case "daily_rate": return "e.g., 200.00";
+      case "salary": return "e.g., 1200.00";
+      case "hazmat": return "e.g., 125.00";
+      case "detention": return "e.g., 20.00";
+      case "layover": return "e.g., 150.00";
+      case "stop_pay": return "e.g., 50.00";
+      case "accessorial": return "e.g., 75.00";
+      case "performance": return "e.g., 300.00";
+      case "safety": return "e.g., 250.00";
+      case "fuel_bonus": return "e.g., 100.00";
+      case "referral": return "e.g., 500.00";
       default: return "Enter rate";
     }
   };
@@ -76,7 +98,18 @@ export default function PayStructureModal({ isOpen, onClose }: PayStructureModal
       case "hourly": return "e.g., Regular driving hours";
       case "per_mile": return "e.g., Standard mileage pay";
       case "per_load": return "e.g., Standard load rate";
-      case "bonus": return "e.g., Monthly safety bonus";
+      case "percentage": return "e.g., Percentage of gross load";
+      case "daily_rate": return "e.g., Fixed daily pay";
+      case "salary": return "e.g., Weekly salary";
+      case "hazmat": return "e.g., Hazardous materials bonus";
+      case "detention": return "e.g., Per hour waiting at shipper/receiver";
+      case "layover": return "e.g., Overnight stay payment";
+      case "stop_pay": return "e.g., Additional stop payment";
+      case "accessorial": return "e.g., Lumper fee reimbursement";
+      case "performance": return "e.g., On-time delivery bonus";
+      case "safety": return "e.g., Monthly safe driving bonus";
+      case "fuel_bonus": return "e.g., Fuel efficiency incentive";
+      case "referral": return "e.g., Driver referral program";
       default: return "Describe this payment type";
     }
   };
@@ -99,10 +132,21 @@ export default function PayStructureModal({ isOpen, onClose }: PayStructureModal
                 <SelectValue placeholder="Select payment type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="hourly">Hourly</SelectItem>
-                <SelectItem value="per_mile">Per Mile</SelectItem>
-                <SelectItem value="per_load">Per Load</SelectItem>
-                <SelectItem value="bonus">Bonus</SelectItem>
+                <SelectItem value="hourly">Hourly Pay</SelectItem>
+                <SelectItem value="per_mile">Per Mile Pay</SelectItem>
+                <SelectItem value="per_load">Per Load Pay</SelectItem>
+                <SelectItem value="percentage">Percentage of Load</SelectItem>
+                <SelectItem value="daily_rate">Daily Rate</SelectItem>
+                <SelectItem value="salary">Salary</SelectItem>
+                <SelectItem value="hazmat">Hazmat Bonus</SelectItem>
+                <SelectItem value="detention">Detention Pay</SelectItem>
+                <SelectItem value="layover">Layover Pay</SelectItem>
+                <SelectItem value="stop_pay">Stop Pay</SelectItem>
+                <SelectItem value="accessorial">Accessorial Pay</SelectItem>
+                <SelectItem value="performance">Performance Bonus</SelectItem>
+                <SelectItem value="safety">Safety Bonus</SelectItem>
+                <SelectItem value="fuel_bonus">Fuel Bonus</SelectItem>
+                <SelectItem value="referral">Referral Bonus</SelectItem>
                 <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>

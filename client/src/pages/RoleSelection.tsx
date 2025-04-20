@@ -26,9 +26,9 @@ export default function RoleSelection() {
     // Set the role in context
     setRole(role);
     
-    // Navigate to dashboard
-    console.log("Navigating to dashboard with role:", role);
-    setLocation("/dashboard");
+    // Navigate to tax onboarding
+    console.log("Navigating to tax onboarding with role:", role);
+    setLocation("/tax-onboarding");
   };
 
   return (

@@ -19,20 +19,46 @@ export interface Goal {
 // Expense frequency
 export type ExpenseFrequency = 'daily' | 'weekly' | 'monthly' | 'yearly';
 
-// Expense category
-export type ExpenseCategory = 
+// Common expense categories for both company drivers and owner-operators
+export type CommonExpenseCategory =
   | 'housing' 
   | 'food' 
-  | 'transportation' 
   | 'utilities' 
   | 'healthcare' 
   | 'personal'
+  | 'other';
+
+// Owner-operator specific expense categories
+export type OwnerOperatorExpenseCategory =
   | 'fuel'
   | 'maintenance'
   | 'insurance'
   | 'tolls'
   | 'permits'
-  | 'other';
+  | 'truck_payment'
+  | 'license_fees'
+  | 'broker_fees'
+  | 'parking_fees'
+  | 'equipment'
+  | 'eld_subscription'
+  | 'hazmat'
+  | 'business_services'; // Accounting, legal, etc.
+
+// Company driver specific expense categories
+export type CompanyDriverExpenseCategory =
+  | 'on_road_meals'
+  | 'uniform'
+  | 'communication'
+  | 'tools_equipment'
+  | 'education_training'
+  | 'association_dues'
+  | 'travel_to_terminal'; // Travel between home and terminal
+
+// Combined expense category type
+export type ExpenseCategory = 
+  | CommonExpenseCategory 
+  | OwnerOperatorExpenseCategory 
+  | CompanyDriverExpenseCategory;
 
 // Expense type
 export interface Expense {
@@ -61,7 +87,23 @@ export interface IncomeLog {
 export type WhatIfPeriod = 'day' | 'week' | 'month';
 
 // Pay type
-export type PayType = 'hourly' | 'per_mile' | 'per_load' | 'bonus' | 'other';
+export type PayType = 
+  | 'hourly'           // Hourly pay
+  | 'per_mile'         // Per mile pay
+  | 'per_load'         // Per load pay
+  | 'percentage'       // Percentage of load revenue
+  | 'daily_rate'       // Fixed daily rate
+  | 'salary'           // Fixed salary
+  | 'hazmat'           // Hazardous materials bonus
+  | 'detention'        // Detention pay
+  | 'layover'          // Layover pay
+  | 'stop_pay'         // Additional pay per stop
+  | 'accessorial'      // Accessorial pay (lumpers, etc.)
+  | 'performance'      // Performance-based bonus
+  | 'safety'           // Safety bonus
+  | 'fuel_bonus'       // Fuel efficiency bonus
+  | 'referral'         // Referral bonus
+  | 'other';           // Miscellaneous/other pay types
 
 // Pay structure type
 export interface PayStructure {
