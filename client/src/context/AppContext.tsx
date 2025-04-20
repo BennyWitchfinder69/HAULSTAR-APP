@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState, ReactNode } from "react";
-import { AppState, Goal, Expense, IncomeLog, UserRole, ExpenseFrequency, ExpenseCategory, PayType, PayStructure } from "../types";
+import { AppState, Goal, Expense, IncomeLog, UserRole, ExpenseFrequency, ExpenseCategory, PayType, PayStructure, TaxSettings } from "../types";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { normalizeExpense } from "../utils/calculations";
 
@@ -34,6 +34,7 @@ interface AppContextType {
   addPayRate: (payType: PayType, rate: number, description?: string) => void;
   updateCash: (amount: number) => void;
   toggleHideIncome: (hide: boolean) => void;
+  setTaxSettings: (settings: TaxSettings) => void;
   resetAppState: () => void;
 }
 

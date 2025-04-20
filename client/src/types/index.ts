@@ -72,6 +72,17 @@ export interface PayStructure {
   isActive?: boolean;
 }
 
+// Tax settings
+export interface TaxSettings {
+  federalTaxRate: number;
+  socialSecurityRate: number;
+  medicareRate: number;
+  stateTaxRate: number;
+  stateName?: string;
+  selfEmploymentTax?: number; // Additional for owner-operators
+  useStandardDeduction: boolean;
+}
+
 // User state
 export interface AppState {
   signedIn: boolean;
@@ -82,6 +93,7 @@ export interface AppState {
   payStructures: PayStructure[];
   availableCash: number;
   hideIncome: boolean;
+  taxSettings?: TaxSettings;
 }
 
 // Add goal form data

@@ -52,20 +52,9 @@ export default function Dashboard() {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">{driverTypeText}</h2>
           <div className="text-right">
-            <div className="flex items-center justify-end mb-1">
-              <span className="text-xs text-neutral-500 mr-2">Hide Income</span>
-              <button 
-                onClick={() => toggleHideIncome(!state.hideIncome)} 
-                className={`w-8 h-4 rounded-full transition-colors duration-200 ease-in-out ${state.hideIncome ? 'bg-primary' : 'bg-neutral-300'} relative`}
-              >
-                <span 
-                  className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-transform duration-200 ease-in-out ${state.hideIncome ? 'translate-x-4' : ''}`}
-                />
-              </button>
-            </div>
             <p className="text-neutral-500 text-sm">Available Cash</p>
             <p className="text-2xl font-bold text-primary">
-              {state.hideIncome ? '****' : `$${state.availableCash.toFixed(2)}`}
+              ${state.availableCash.toFixed(2)}
             </p>
           </div>
         </div>
@@ -116,15 +105,30 @@ export default function Dashboard() {
       {/* Income & Expenses Section */}
       <div className="flex flex-col md:flex-row gap-4 mb-6">
         <div className="flex-1 bg-white rounded-xl shadow-md p-5">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold">Income</h3>
-            <button 
-              onClick={() => setPayStructureModalOpen(true)}
-              className="text-primary hover:text-blue-700 p-1"
-              title="Add Pay Structure"
-            >
-              <span className="material-icons">add_circle</span>
-            </button>
+          <div className="mb-4">
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-lg font-semibold">Income</h3>
+              <button 
+                onClick={() => setPayStructureModalOpen(true)}
+                className="text-primary hover:text-blue-700 p-1"
+                title="Add Pay Structure"
+              >
+                <span className="material-icons">add_circle</span>
+              </button>
+            </div>
+            
+            <div className="flex items-center justify-end">
+              <span className="text-xs text-neutral-500 mr-2">Hide Income</span>
+              <button 
+                onClick={() => toggleHideIncome(!state.hideIncome)} 
+                className={`w-8 h-4 rounded-full transition-colors duration-200 ease-in-out ${state.hideIncome ? 'bg-primary' : 'bg-neutral-300'} relative`}
+                aria-label="Toggle income visibility"
+              >
+                <span 
+                  className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-transform duration-200 ease-in-out ${state.hideIncome ? 'translate-x-4' : ''}`}
+                />
+              </button>
+            </div>
           </div>
           
           <div className="text-center py-4">
@@ -150,7 +154,9 @@ export default function Dashboard() {
                        pay.payType === 'per_load' ? 'Per Load' :
                        pay.payType === 'bonus' ? 'Bonus' : 'Other'}
                     </span>
-                    <span className="font-medium">${parseFloat(pay.rate.toString()).toFixed(2)}</span>
+                    <span className="font-medium">
+                      {state.hideIncome ? '****' : `$${parseFloat(pay.rate.toString()).toFixed(2)}`}
+                    </span>
                   </div>
                 ))}
               </div>
