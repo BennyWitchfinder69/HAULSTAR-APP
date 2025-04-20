@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Road background -->
+  <rect x="0" y="0" width="200" height="200" rx="20" fill="#87CEEB" />
+  
+  <!-- Road -->
+  <path d="M0,140 C50,110 150,170 200,140 L200,200 L0,200 Z" fill="#333" />
+  
+  <!-- Road markings -->
+  <rect x="20" y="170" width="30" height="5" fill="#FFFFFF" />
+  <rect x="70" y="170" width="30" height="5" fill="#FFFFFF" />
+  <rect x="120" y="170" width="30" height="5" fill="#FFFFFF" />
+  <rect x="170" y="170" width="30" height="5" fill="#FFFFFF" />
+  
+  <!-- Star -->
+  <path d="M100,20 L116,69 L170,69 L127,98 L142,147 L100,118 L58,147 L73,98 L30,69 L84,69 Z" fill="#FFD700" stroke="#FFD700" stroke-width="2" />
+  
+  <!-- Truck silhouette (simplified) -->
+  <path d="M65,110 L65,90 L90,90 L100,75 L140,75 L145,90 L155,90 L155,110 Z" fill="#333" />
+  <circle cx="80" cy="110" r="10" fill="#555" />
+  <circle cx="140" cy="110" r="10" fill="#555" />
+  
+  <!-- Text below -->
+  <text x="100" y="190" font-family="Montserrat, Arial, sans-serif" font-weight="bold" font-size="16" text-anchor="middle" fill="#FFFFFF">HAULSTAR</text>
+</svg>
