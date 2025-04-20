@@ -48,6 +48,7 @@ export const AppContext = createContext<AppContextType>({
   addPayRate: () => {},
   updateCash: () => {},
   toggleHideIncome: () => {},
+  setTaxSettings: () => {},
   resetAppState: () => {},
 });
 
@@ -173,6 +174,13 @@ export function AppProvider({ children }: AppProviderProps) {
       hideIncome: hide,
     }));
   };
+  
+  const setTaxSettings = (settings: TaxSettings) => {
+    setState((prevState) => ({
+      ...prevState,
+      taxSettings: settings,
+    }));
+  };
 
   const resetAppState = () => {
     // Clear any stored state completely
@@ -194,6 +202,7 @@ export function AppProvider({ children }: AppProviderProps) {
         addPayRate,
         updateCash,
         toggleHideIncome,
+        setTaxSettings,
         resetAppState,
       }}
     >

@@ -18,9 +18,24 @@ export default function WelcomeScreen() {
   };
 
   const handleSignIn = (method: SignInMethod) => {
+    // In a production app, we would use Firebase authentication here
+    // For now, we'll just simulate a successful login
     setSignedIn(true);
-    alert(`Signed in with ${method}`);
-    setLocation("/role-selection");
+    console.log(`Signed in with ${method}`);
+    
+    // Show success message
+    const methodNames = {
+      google: "Google",
+      apple: "Apple",
+      phone: "Phone",
+      reddit: "Reddit"
+    };
+    
+    // Set a small timeout to make it feel like authentication is happening
+    setTimeout(() => {
+      alert(`Successfully signed in with ${methodNames[method]}!`);
+      setLocation("/role-selection");
+    }, 300);
   };
 
   return (
