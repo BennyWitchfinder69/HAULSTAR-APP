@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { useLocation } from "wouter";
 import { AppContext } from "../context/AppContext";
 import { SignInMethod } from "../types";
-import haulstarLogo from "../assets/haulstar-logo.svg";
+import haulstarLogo from "../assets/haulstar-pro-logo.svg";
 
 export default function WelcomeScreen() {
   const { setSignedIn } = useContext(AppContext);

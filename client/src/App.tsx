@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import WelcomeScreen from "@/pages/WelcomeScreen";
 import RoleSelection from "@/pages/RoleSelection";
+import TaxOnboarding from "@/pages/TaxOnboarding";
 import Dashboard from "@/pages/Dashboard";
 import { useContext, useEffect } from "react";
 import { AppContext } from "./context/AppContext";
@@ -36,6 +37,7 @@ function Router() {
     <Switch>
       <Route path="/" component={WelcomeScreen} />
       <Route path="/role-selection" component={RoleSelection} />
+      <Route path="/tax-onboarding" component={TaxOnboarding} />
       <Route path="/dashboard" component={Dashboard} />
       <Route component={NotFound} />
     </Switch>

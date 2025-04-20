@@ -7,9 +7,20 @@ import { normalizeExpense } from "../utils/calculations";
 const defaultWeekOffGoal: Goal = {
   id: "week-off",
   name: "Take a Week Off",
-  amount: 980,
-  saved: 294,
-  progress: 30,
+  amount: 0,  // Will be calculated based on user's expenses
+  saved: 0,
+  progress: 0,
+};
+
+// Default tax settings
+const defaultTaxSettings: TaxSettings = {
+  federalTaxRate: 15.0,  // Default federal tax rate
+  socialSecurityRate: 6.2,
+  medicareRate: 1.45,
+  stateTaxRate: 0,  // Will be set based on state selection
+  stateName: '',   // Will be set during onboarding
+  selfEmploymentTax: 15.3, // For owner-operators
+  useStandardDeduction: true
 };
 
 // Initial app state
@@ -20,8 +31,9 @@ const initialState: AppState = {
   expenses: [],
   income: [],
   payStructures: [],
-  availableCash: 500,
+  availableCash: 0,  // Start at zero as requested
   hideIncome: false,
+  taxSettings: defaultTaxSettings
 };
 
 interface AppContextType {

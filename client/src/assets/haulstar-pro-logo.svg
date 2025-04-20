@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240" height="80" viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background (transparent) -->
+  
+  <!-- Truck outline - Semi truck with trailer -->
+  <g transform="translate(10, 15) scale(0.9)">
+    <!-- Truck cab -->
+    <path d="M30,40 L60,40 L65,25 L75,25 L80,40 L120,40 L120,55 L30,55 Z" 
+          fill="#333" stroke="#333" stroke-width="1.5"/>
+    <!-- Windshield -->
+    <path d="M62,38 L66,28 L73,28 L77,38 Z" 
+          fill="#87CEEB" stroke="#333" stroke-width="0.75"/>
+    <!-- Trailer -->
+    <rect x="80" y="30" width="110" height="25" fill="#444" stroke="#333" stroke-width="1.5"/>
+    <!-- Truck wheels -->
+    <circle cx="45" cy="55" r="8" fill="#111" stroke="#333" stroke-width="1"/>
+    <circle cx="45" cy="55" r="3" fill="#444" stroke="#333" stroke-width="0.5"/>
+    <circle cx="65" cy="55" r="8" fill="#111" stroke="#333" stroke-width="1"/>
+    <circle cx="65" cy="55" r="3" fill="#444" stroke="#333" stroke-width="0.5"/>
+    <!-- Trailer wheels sets -->
+    <circle cx="120" cy="55" r="8" fill="#111" stroke="#333" stroke-width="1"/>
+    <circle cx="120" cy="55" r="3" fill="#444" stroke="#333" stroke-width="0.5"/>
+    <circle cx="140" cy="55" r="8" fill="#111" stroke="#333" stroke-width="1"/>
+    <circle cx="140" cy="55" r="3" fill="#444" stroke="#333" stroke-width="0.5"/>
+    <circle cx="160" cy="55" r="8" fill="#111" stroke="#333" stroke-width="1"/>
+    <circle cx="160" cy="55" r="3" fill="#444" stroke="#333" stroke-width="0.5"/>
+    <!-- Front grill -->
+    <rect x="30" y="35" width="5" height="10" fill="#222" stroke="#333" stroke-width="0.5"/>
+    <!-- Headlights -->
+    <rect x="36" y="37" width="4" height="3" rx="1" fill="#FFD700" stroke="#333" stroke-width="0.5"/>
+    <!-- Windshield wipers -->
+    <line x1="65" y1="32" x2="71" y2="35" stroke="#333" stroke-width="0.5"/>
+    <!-- Door line -->
+    <line x1="70" y1="25" x2="70" y2="40" stroke="#222" stroke-width="0.75"/>
+    <!-- Star symbol on the trailer -->
+    <path d="M130,42 L133,35 L140,35 L134,30 L137,23 L130,28 L123,23 L126,30 L120,35 L127,35 Z" 
+          fill="#FFD700" stroke="#FFD700" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Text "HaulStar" -->
+  <text x="120" y="70" font-family="Arial, sans-serif" font-weight="bold" font-size="20" text-anchor="middle" fill="#333">
+    <tspan fill="#FFD700">Haul</tspan><tspan fill="#333">Star</tspan>
+  </text>
+  
+  <!-- Tagline -->
+  <text x="120" y="78" font-family="Arial, sans-serif" font-size="6" text-anchor="middle" fill="#666">NAVIGATE YOUR JOURNEY TO SUCCESS</text>
+</svg>
