@@ -35,11 +35,11 @@ function HomePage() {
           
           <nav className="flex justify-center items-center gap-6 mb-4">
             <Button 
-              onClick={() => setLocation("/dashboard")} 
+              onClick={() => setLocation("/login")} 
               variant="outline" 
               className="border-2 border-turquoise text-turquoise hover:bg-turquoise/10 font-bold"
             >
-              Demo
+              Log In
             </Button>
             <Button 
               onClick={() => setLocation("/login")} 
@@ -69,7 +69,7 @@ function HomePage() {
                   100% FREE
                 </span>
                 <span className="bg-turquoise text-white text-lg font-bold px-5 py-1.5 rounded-full">
-                  Created By Truckers
+                  CREATED BY A TRUCKER
                 </span>
               </div>
               
@@ -80,18 +80,30 @@ function HomePage() {
               
               <div className="flex justify-center mb-12">
                 <Button 
-                  onClick={() => setLocation("/dashboard")} 
+                  onClick={() => setLocation("/login")} 
                   size="lg" 
                   className="bg-gradient-to-r from-turquoise to-gold text-black border-none font-bold text-lg h-14 px-10"
                 >
-                  Try Demo <ChevronRight className="ml-2 h-5 w-5" />
+                  Log In <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </div>
               
-              <div className="w-full max-w-lg mx-auto">
+              {/* Multiple ad spaces */}
+              <div className="w-full mx-auto mb-8">
                 <AdvertisementSpace 
                   placement="dashboard_top"
                   className="mx-auto shadow-lg border-2 border-gold rounded-lg overflow-hidden"
+                />
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <AdvertisementSpace 
+                  placement="income_page"
+                  className="h-full min-h-[180px] rounded-lg overflow-hidden shadow-lg border-2 border-turquoise"
+                />
+                <AdvertisementSpace 
+                  placement="expenses_page"
+                  className="h-full min-h-[180px] rounded-lg overflow-hidden shadow-lg border-2 border-orange"
                 />
               </div>
             </div>
@@ -158,7 +170,7 @@ function HomePage() {
               © 2025 HaulStar. All rights reserved.
             </p>
             <p className="text-lg font-bold mt-2">
-              <span className="text-gold">Created by professional truckers</span>
+              <span className="text-gold">CREATED BY A PROFESSIONAL TRUCKER</span>
               <span className="mx-2">for</span>
               <span className="text-turquoise">professional drivers</span>
             </p>
