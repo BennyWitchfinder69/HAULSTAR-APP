@@ -24,7 +24,7 @@ function HomePage() {
               <a className="flex flex-col items-center gap-1">
                 <div className="logo-container">
                   <img 
-                    src="/src/assets/haulstar-logo-main.webp" 
+                    src="/src/assets/haulstar-logo-new.svg" 
                     alt="HaulStar Logo" 
                     className="w-full h-auto"
                   />
@@ -217,7 +217,7 @@ function DashboardPage() {
               <a className="flex flex-col items-center gap-1">
                 <div className="logo-container">
                   <img 
-                    src="/src/assets/haulstar-logo-main.webp" 
+                    src="/src/assets/haulstar-logo-new.svg" 
                     alt="HaulStar Logo" 
                     className="w-full h-auto"
                   />
@@ -305,7 +305,7 @@ function DashboardPage() {
             <div className="md:col-span-8 flex flex-col items-center gap-8">
               <div className="bg-muted rounded-xl border-2 border-gold p-6 flex justify-center items-center w-full">
                 <img
-                  src="/src/assets/haulstar-logo-main.webp"
+                  src="/src/assets/haulstar-logo-new.svg"
                   alt="HaulStar Logo"
                   className="w-full max-w-[500px] h-auto rounded-lg shadow-lg"
                 />
