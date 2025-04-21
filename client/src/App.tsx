@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Truck, DollarSign, ChevronRight } from "lucide-react";
 import AdvertisementSpace from "./components/AdvertisementSpace";
 import TruckerPathIntegration from "./components/TruckerPathIntegration";
+import MobileNav from "./components/MobileNav";
 
 function HomePage() {
   const [, setLocation] = useLocation();
@@ -46,8 +47,17 @@ function HomePage() {
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
                 Financial Management for Professional Truckers
               </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Track your miles, expenses, and income. Plan your finances and reach your goals while on the road.
+              <div className="flex items-center gap-2 mt-2">
+                <span className="bg-primary text-black text-sm font-medium px-2.5 py-0.5 rounded-full">
+                  100% FREE
+                </span>
+                <span className="bg-blue-600 text-white text-sm font-medium px-2.5 py-0.5 rounded-full">
+                  Created By Truckers
+                </span>
+              </div>
+              <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
+                Track your miles, expenses, and income. Plan your finances and reach your goals while on the road. 
+                Designed by expert truckers who understand your professional needs.
               </p>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <Button onClick={() => setLocation("/dashboard")} size="lg">
@@ -117,21 +127,36 @@ function HomePage() {
       </main>
       
       <footer className="border-t py-6 md:py-0">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
-          <p className="text-sm text-muted-foreground md:text-base">
-            © 2025 HaulStar. All rights reserved.
-          </p>
-          <div className="flex gap-4">
-            <Link href="/terms">
-              <a className="text-sm text-muted-foreground hover:underline md:text-base">
-                Terms
-              </a>
-            </Link>
-            <Link href="/privacy">
-              <a className="text-sm text-muted-foreground hover:underline md:text-base">
-                Privacy
-              </a>
-            </Link>
+        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+          <div className="text-center md:text-left">
+            <p className="text-sm text-muted-foreground md:text-base">
+              © 2025 HaulStar. All rights reserved.
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              <span className="text-primary font-medium">Created by professional truckers</span> for professional drivers.
+            </p>
+          </div>
+          <div className="flex flex-col items-center md:items-end">
+            <div className="inline-flex items-center mb-2">
+              <span className="bg-primary/20 text-primary px-2 py-0.5 rounded text-xs font-medium">
+                100% FREE
+              </span>
+              <span className="bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded text-xs font-medium ml-2">
+                No Ads for Pro Users
+              </span>
+            </div>
+            <div className="flex gap-4">
+              <Link href="/terms">
+                <a className="text-sm text-muted-foreground hover:underline md:text-base">
+                  Terms
+                </a>
+              </Link>
+              <Link href="/privacy">
+                <a className="text-sm text-muted-foreground hover:underline md:text-base">
+                  Privacy
+                </a>
+              </Link>
+            </div>
           </div>
         </div>
       </footer>
@@ -260,6 +285,12 @@ function DashboardPage() {
           </div>
         </div>
       </main>
+      
+      {/* Add Mobile Navigation */}
+      <MobileNav />
+      
+      {/* Extra padding at the bottom for mobile to account for the navigation */}
+      <div className="h-16 md:hidden"></div>
     </div>
   );
 }

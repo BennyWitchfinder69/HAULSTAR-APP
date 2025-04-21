@@ -4,7 +4,8 @@ import {
   DollarSign, 
   PiggyBank, 
   Settings,
-  TrendingUp
+  TrendingUp,
+  Plus
 } from "lucide-react";
 
 export default function MobileNav() {
@@ -21,7 +22,7 @@ export default function MobileNav() {
           <a className={`flex flex-col items-center justify-center space-y-1 hover:text-primary 
             ${isActive("/dashboard") ? "text-primary" : "text-muted-foreground"}`}>
             <LayoutDashboard className="h-5 w-5" />
-            <span className="text-xs">Dashboard</span>
+            <span className="text-xs">Home</span>
           </a>
         </Link>
         <Link href="/expenses">
@@ -31,6 +32,19 @@ export default function MobileNav() {
             <span className="text-xs">Expenses</span>
           </a>
         </Link>
+        
+        {/* Central Add Button */}
+        <div className="relative flex items-center justify-center">
+          <div className="absolute -top-6 flex items-center justify-center">
+            <Link href="/add">
+              <a className="rounded-full bg-primary text-primary-foreground p-3 shadow-lg border-4 border-background">
+                <Plus className="h-6 w-6" />
+              </a>
+            </Link>
+          </div>
+          <span className="text-xs text-muted-foreground mt-6">Add</span>
+        </div>
+        
         <Link href="/income">
           <a className={`flex flex-col items-center justify-center space-y-1 hover:text-primary 
             ${isActive("/income") ? "text-primary" : "text-muted-foreground"}`}>
@@ -43,13 +57,6 @@ export default function MobileNav() {
             ${isActive("/goals") ? "text-primary" : "text-muted-foreground"}`}>
             <PiggyBank className="h-5 w-5" />
             <span className="text-xs">Goals</span>
-          </a>
-        </Link>
-        <Link href="/settings">
-          <a className={`flex flex-col items-center justify-center space-y-1 hover:text-primary 
-            ${isActive("/settings") ? "text-primary" : "text-muted-foreground"}`}>
-            <Settings className="h-5 w-5" />
-            <span className="text-xs">Settings</span>
           </a>
         </Link>
       </div>
