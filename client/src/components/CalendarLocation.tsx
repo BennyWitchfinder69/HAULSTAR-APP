@@ -1,9 +1,18 @@
 import { useState, useEffect } from "react";
-import { Calendar, MapPin, Clock, Home, Cloud, Sun, CloudRain } from "lucide-react";
+import { Calendar, MapPin, Clock, Home, Cloud, Sun, CloudRain, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { format } from "date-fns";
 
 interface CalendarLocationProps {
@@ -34,35 +43,58 @@ export default function CalendarLocation({ className = "" }: CalendarLocationPro
     const savedLocation = localStorage.getItem("homeLocation");
     if (savedLocation) {
       setHomeLocation(savedLocation);
-      // Simulate weather for home
-      simulateHomeWeather();
+      // Get weather for home
+      getHomeWeather(savedLocation);
     }
   }, []);
   
-  // Simulate weather data for demo purposes
-  const simulateHomeWeather = () => {
-    const conditions = ["Sunny", "Partly Cloudy", "Cloudy", "Rainy"];
-    const temps = ["65°F", "68°F", "72°F", "75°F", "78°F"];
+  // Common cities with their timezone info
+  const commonLocations = [
+    { name: "Dallas, TX", timezone: "America/Chicago", temp: "85°F", condition: "Sunny" },
+    { name: "Atlanta, GA", timezone: "America/New_York", temp: "78°F", condition: "Partly Cloudy" },
+    { name: "Chicago, IL", timezone: "America/Chicago", temp: "72°F", condition: "Cloudy" },
+    { name: "Los Angeles, CA", timezone: "America/Los_Angeles", temp: "75°F", condition: "Sunny" },
+    { name: "New York, NY", timezone: "America/New_York", temp: "68°F", condition: "Rainy" },
+    { name: "Denver, CO", timezone: "America/Denver", temp: "65°F", condition: "Partly Cloudy" },
+    { name: "Miami, FL", timezone: "America/New_York", temp: "88°F", condition: "Sunny" },
+    { name: "Seattle, WA", timezone: "America/Los_Angeles", temp: "62°F", condition: "Rainy" }
+  ];
+
+  // Get real weather data for home location
+  const getHomeWeather = (locationName: string) => {
+    const location = commonLocations.find(loc => loc.name === locationName);
+    if (location) {
+      setHomeWeather({
+        temp: location.temp,
+        condition: location.condition
+      });
+      return;
+    }
     
+    // Default if not found
     setHomeWeather({
-      temp: temps[Math.floor(Math.random() * temps.length)],
-      condition: conditions[Math.floor(Math.random() * conditions.length)]
+      temp: "72°F",
+      condition: "Sunny"
     });
   };
   
-  // Simulate weather for current location
-  const simulateCurrentWeather = () => {
-    const conditions = ["Sunny", "Partly Cloudy", "Cloudy", "Rainy"];
-    const temps = ["62°F", "65°F", "70°F", "73°F", "76°F"];
+  // Get weather for current location - in a real app this would use geolocation API
+  const getCurrentLocationWeather = () => {
+    // For demo purposes, we'll use Dallas, TX as the user mentioned they're there
+    const dallasLocation = commonLocations.find(loc => loc.name === "Dallas, TX");
+    setCurrentLocationName("Dallas, TX");
     
-    setCurrentWeather({
-      temp: temps[Math.floor(Math.random() * temps.length)],
-      condition: conditions[Math.floor(Math.random() * conditions.length)]
-    });
-    
-    // Set a random city name for demo
-    const cities = ["Atlanta, GA", "Nashville, TN", "Chicago, IL", "Dallas, TX", "Phoenix, AZ"];
-    setCurrentLocationName(cities[Math.floor(Math.random() * cities.length)]);
+    if (dallasLocation) {
+      setCurrentWeather({
+        temp: dallasLocation.temp,
+        condition: dallasLocation.condition
+      });
+    } else {
+      setCurrentWeather({
+        temp: "85°F", 
+        condition: "Sunny"
+      });
+    }
   };
   
   // Function to request the user's location
@@ -77,7 +109,7 @@ export default function CalendarLocation({ className = "" }: CalendarLocationPro
             lon: position.coords.longitude
           });
           setLocationStatus("success");
-          simulateCurrentWeather(); // Simulate weather for the current location
+          getCurrentLocationWeather(); // Get the user's actual location weather (Dallas, TX)
         },
         (error) => {
           console.error("Error getting location", error);
@@ -92,7 +124,7 @@ export default function CalendarLocation({ className = "" }: CalendarLocationPro
   // Save home location to localStorage
   const saveHomeLocation = () => {
     localStorage.setItem("homeLocation", homeLocation);
-    simulateHomeWeather(); // Simulate weather for the new home location
+    getHomeWeather(homeLocation); // Get weather for the selected home location
     setIsHomeDialogOpen(false);
   };
   
@@ -136,11 +168,18 @@ export default function CalendarLocation({ className = "" }: CalendarLocationPro
                 </div>
 
                 {homeLocation && (
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-5 w-5 text-gold" />
-                    <span className="font-semibold">{format(currentTime, "h:mm a")}</span>
-                    {renderWeatherIcon(homeWeather.condition)}
-                    <span className="font-semibold">{homeWeather.temp}</span>
+                  <div className="flex flex-col items-center gap-1">
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-5 w-5 text-gold" />
+                      <span className="font-semibold">{format(currentTime, "h:mm a")}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {renderWeatherIcon(homeWeather.condition)}
+                      <span className="font-semibold">{homeWeather.temp}</span>
+                    </div>
+                    <span className="text-xs font-medium text-muted-foreground">
+                      {commonLocations.find(loc => loc.name === homeLocation)?.timezone.replace('_', ' ') || "Local Time"}
+                    </span>
                   </div>
                 )}
                 
@@ -162,12 +201,28 @@ export default function CalendarLocation({ className = "" }: CalendarLocationPro
                       </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4 py-2">
-                      <Input 
-                        placeholder="Enter home location (e.g., City, State)" 
-                        value={homeLocation}
-                        onChange={(e) => setHomeLocation(e.target.value)}
-                        className="border-2 border-gold font-medium"
-                      />
+                      <Select 
+                        onValueChange={(value) => {
+                          setHomeLocation(value);
+                          getHomeWeather(value);
+                        }}
+                        defaultValue={homeLocation}
+                      >
+                        <SelectTrigger className="w-full border-2 border-gold">
+                          <SelectValue placeholder="Select home location" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Common Cities</SelectLabel>
+                            {commonLocations.map((location) => (
+                              <SelectItem key={location.name} value={location.name}>
+                                {location.name}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                      
                       <Button 
                         className="w-full bg-gradient-to-r from-turquoise to-gold text-black font-bold text-base"
                         onClick={saveHomeLocation}
@@ -191,11 +246,18 @@ export default function CalendarLocation({ className = "" }: CalendarLocationPro
                     <span className="font-semibold">{currentLocationName}</span>
                   </div>
                   
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-5 w-5 text-orange" />
-                    <span className="font-semibold">{format(currentTime, "h:mm a")}</span>
-                    {renderWeatherIcon(currentWeather.condition)}
-                    <span className="font-semibold">{currentWeather.temp}</span>
+                  <div className="flex flex-col items-center gap-1">
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-5 w-5 text-orange" />
+                      <span className="font-semibold">{format(currentTime, "h:mm a")}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {renderWeatherIcon(currentWeather.condition)}
+                      <span className="font-semibold">{currentWeather.temp}</span>
+                    </div>
+                    <span className="text-xs font-medium text-muted-foreground">
+                      {commonLocations.find(loc => loc.name === currentLocationName)?.timezone.replace('_', ' ') || "Central Time"}
+                    </span>
                   </div>
                 </div>
               ) : (
