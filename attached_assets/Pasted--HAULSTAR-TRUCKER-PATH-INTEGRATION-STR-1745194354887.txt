@@ -1,0 +1,82 @@
+/* -------------------------------------------------------
+   HAULSTAR: TRUCKER PATH INTEGRATION STRATEGY (2 OPTIONS)
+   -------------------------------------------------------
+   Purpose: Use Trucker Path features within HaulStar app
+------------------------------------------------------- */
+
+/* 
+OPTION 1: DEEP LINKING TRUCKER PATH FEATURES
+----------------------------------------------
+Use hyperlinks or buttons that launch Trucker Path tools
+inside the user's browser or app. No data sharing needed.
+*/
+
+<!-- Example: Button to open Trucker Path Truck Stops page -->
+<a href="https://truckerpath.com/truck-stops/" target="_blank">
+  <button style="
+    padding: 10px 20px;
+    background-color: #D4AF37;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+  ">
+    🛣️ Open Trucker Path Truck Stops
+  </button>
+</a>
+
+<!-- Can also link to:
+     - https://truckerpath.com/fuel/
+     - https://truckerpath.com/parking/
+     - https://truckerpath.com/weigh-stations/
+-->
+
+/*
+ADVANTAGES:
+- Fast to deploy
+- Keeps users in HaulStar ecosystem
+- No API or legal issues
+
+LIMITATIONS:
+- Opens in new window/tab
+- No direct data pulled into your dashboard
+*/
+
+/* 
+OPTION 2: PARTNERSHIP / DATA INTEGRATION (LONG GAME)
+------------------------------------------------------
+Contact Trucker Path for commercial access or integration.
+This allows you to:
+- Pull in truck stop data
+- Show live parking info
+- Access fuel prices
+- Embed weigh station statuses
+*/
+
+📧 Suggested outreach plan:
+1. Go to: https://truckerpath.com/contact/
+2. Reach out via business inquiry
+3. Ask for white-labeled API or data feed access
+4. Pitch use case:
+   - You're building HaulStar, a fleet-focused logistics dashboard
+   - You want to integrate Trucker Path tools into your driver workflow
+
+🧠 Backup Plan:
+If they decline API access, use:
+- **OpenStreetMap** for routing + road data
+- **Mapbox** for custom truck routes (avoid height/weight restricted roads)
+- **Pilot Flying J Developer API** (fuel & amenities)
+- **Love’s API / Partner Program** for truck stops and live parking
+
+/* 
+RECOMMENDED STRATEGY:
+- Short-term: Use Option 1 (Deep Link Buttons)
+- Long-term: Pursue Option 2 (Partnership/API Access)
+*/
+
+/* -------------------------------------------------------
+   Google Maps has been excluded (not viable for trucking).
+   This version is truck-optimized only.
+------------------------------------------------------- */

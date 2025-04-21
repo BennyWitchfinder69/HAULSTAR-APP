@@ -1,25 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <!-- Road background -->
-  <rect x="0" y="0" width="200" height="200" rx="20" fill="#87CEEB" />
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <circle cx="256" cy="256" r="256" fill="#0f172a"/>
+  <circle cx="256" cy="256" r="240" fill="#1e293b"/>
   
-  <!-- Road -->
-  <path d="M0,140 C50,110 150,170 200,140 L200,200 L0,200 Z" fill="#333" />
+  <!-- Truck outline -->
+  <path d="M120 286L180 196H332L392 286L410 286V336H380C380 358 362 376 340 376S300 358 300 336H212C212 358 194 376 172 376S132 358 132 336H102V286H120Z" fill="#334155" stroke="#e5e7eb" stroke-width="4"/>
   
-  <!-- Road markings -->
-  <rect x="20" y="170" width="30" height="5" fill="#FFFFFF" />
-  <rect x="70" y="170" width="30" height="5" fill="#FFFFFF" />
-  <rect x="120" y="170" width="30" height="5" fill="#FFFFFF" />
-  <rect x="170" y="170" width="30" height="5" fill="#FFFFFF" />
+  <!-- Truck cab -->
+  <path d="M180 196H332V286H180V196Z" fill="#dc2626" stroke="#e5e7eb" stroke-width="2"/>
   
-  <!-- Star -->
-  <path d="M100,20 L116,69 L170,69 L127,98 L142,147 L100,118 L58,147 L73,98 L30,69 L84,69 Z" fill="#FFD700" stroke="#FFD700" stroke-width="2" />
+  <!-- Truck front and back angles -->
+  <path d="M180 196V286H120L180 196Z" fill="#dc2626" stroke="#e5e7eb" stroke-width="2"/>
+  <path d="M332 196V286H392L332 196Z" fill="#dc2626" stroke="#e5e7eb" stroke-width="2"/>
   
-  <!-- Truck silhouette (simplified) -->
-  <path d="M65,110 L65,90 L90,90 L100,75 L140,75 L145,90 L155,90 L155,110 Z" fill="#333" />
-  <circle cx="80" cy="110" r="10" fill="#555" />
-  <circle cx="140" cy="110" r="10" fill="#555" />
+  <!-- Windows and details -->
+  <path d="M200 216H312V256H200V216Z" fill="#a5f3fc" stroke="#0c4a6e" stroke-width="2"/>
+  <line x1="256" y1="216" x2="256" y2="256" stroke="#0c4a6e" stroke-width="2"/>
   
-  <!-- Text below -->
-  <text x="100" y="190" font-family="Montserrat, Arial, sans-serif" font-weight="bold" font-size="16" text-anchor="middle" fill="#FFFFFF">HAULSTAR</text>
+  <!-- Grill -->
+  <rect x="160" y="246" width="20" height="30" fill="#475569" stroke="#e5e7eb" stroke-width="1"/>
+  <rect x="332" y="246" width="20" height="30" fill="#475569" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Wheels -->
+  <circle cx="172" cy="336" r="30" fill="#27272a" stroke="#e5e7eb" stroke-width="3"/>
+  <circle cx="172" cy="336" r="15" fill="#525252" stroke="#27272a" stroke-width="2"/>
+  <circle cx="340" cy="336" r="30" fill="#27272a" stroke="#e5e7eb" stroke-width="3"/>
+  <circle cx="340" cy="336" r="15" fill="#525252" stroke="#27272a" stroke-width="2"/>
+  
+  <!-- Stars -->
+  <path d="M256 120L264 144H290L269 159L277 183L256 168L235 183L243 159L222 144H248Z" fill="#fbbf24" stroke="#92400e" stroke-width="1"/>
+  <path d="M190 140L195 155H210L198 165L203 180L190 170L177 180L182 165L170 155H185Z" fill="#fbbf24" stroke="#92400e" stroke-width="1"/>
+  <path d="M322 140L327 155H342L330 165L335 180L322 170L309 180L314 165L302 155H317Z" fill="#fbbf24" stroke="#92400e" stroke-width="1"/>
+  
+  <!-- HaulStar text -->
+  <path d="M118 440H142V404H182V440H206V356H182V384H142V356H118V440Z" fill="#f8fafc"/>
+  <path d="M214 440H238L245 418H279L286 440H310L276 356H248L214 440ZM252 398L262 370L272 398H252Z" fill="#f8fafc"/>
+  <path d="M318 440H342V404H358C366 404 370 408 370 416V440H394V410C394 402 390 396 382 394C390 392 394 384 394 376V370C394 360 386 356 374 356H318V440ZM342 384V376H370C370 380 366 384 362 384H342Z" fill="#f8fafc"/>
+  <path d="M402 440H426V356H402V440Z" fill="#f8fafc"/>
+  <path d="M462 440C478 440 490 436 490 416V380C490 360 478 356 462 356H434V440H462ZM458 416H458V380H462C468 380 466 386 466 398S468 416 462 416H458Z" fill="#f8fafc"/>
+  <path d="M510 440H534V412L566 440H590V356H566V384L534 356H510V440Z" fill="#f8fafc"/>
+  <path d="M598 440H622L629 418H663L670 440H694L660 356H632L598 440ZM636 398L646 370L656 398H636Z" fill="#f8fafc"/>
+  <path d="M702 440H752C764 440 774 436 774 424V410C774 400 768 394 760 392C768 390 774 384 774 374V372C774 360 764 356 752 356H702V440ZM726 388V376H748C752 376 750 380 750 382C750 386 752 388 748 388H726ZM726 420V406H748C752 406 750 410 750 414C750 418 752 420 748 420H726Z" fill="#f8fafc"/>
 </svg>

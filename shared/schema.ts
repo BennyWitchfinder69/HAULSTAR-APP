@@ -1,45 +1,93 @@
-import { pgTable, text, serial, integer, numeric, timestamp, pgEnum, boolean, date } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, numeric, timestamp, pgEnum, boolean, date, uuid, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from 'drizzle-orm';
 
 // Enums
 export const roleEnum = pgEnum('role', ['company', 'owner']);
+
 export const expenseFrequencyEnum = pgEnum('expense_frequency', ['daily', 'weekly', 'monthly', 'yearly']);
+
+// Updated expense categories
 export const expenseCategoryEnum = pgEnum('expense_category', [
-  'housing', 'food', 'transportation', 'utilities', 'healthcare', 'personal',
-  'fuel', 'maintenance', 'insurance', 'tolls', 'permits', 'other'
-]);
-export const payTypeEnum = pgEnum('pay_type', [
-  'hourly',
-  'per_mile',
-  'per_load',
-  'bonus',
-  'other'
+  // Common
+  'housing', 'food', 'utilities', 'healthcare', 'personal', 'other',
+  // Owner operator specific
+  'fuel', 'maintenance', 'insurance', 'tolls', 'permits', 'truck_payment', 
+  'license_fees', 'broker_fees', 'parking_fees', 'equipment', 'eld_subscription', 
+  'hazmat', 'business_services',
+  // Company driver specific
+  'on_road_meals', 'uniform', 'communication', 'tools_equipment', 
+  'education_training', 'association_dues', 'travel_to_terminal'
 ]);
 
-// User table
+// Updated pay types
+export const payTypeEnum = pgEnum('pay_type', [
+  'hourly', 'per_mile', 'per_load', 'percentage', 'daily_rate', 'salary', 
+  'hazmat', 'detention', 'layover', 'stop_pay', 'accessorial', 
+  'performance', 'safety', 'fuel_bonus', 'referral', 'other'
+]);
+
+// Ad placement enum
+export const adPlacementEnum = pgEnum('ad_placement', [
+  'dashboard_top', 'dashboard_sidebar', 'dashboard_bottom',
+  'income_page', 'expenses_page', 'goals_page', 'settings_page'
+]);
+
+// User table (enhanced)
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
+  uuid: uuid("uuid").defaultRandom().notNull().unique(),
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
+  email: text("email").notNull().unique(),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
   role: roleEnum("role"),
   availableCash: numeric("available_cash").notNull().default("0"),
   hideIncome: boolean("hide_income").default(false).notNull(),
+  profileImageUrl: text("profile_image_url"),
+  settings: jsonb("settings").default({}),
+  lastLogin: timestamp("last_login"),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const userRelations = relations(users, ({ many }) => ({
+export const userRelations = relations(users, ({ many, one }) => ({
   goals: many(goals),
   expenses: many(expenses),
   incomeLogs: many(incomeLogs),
-  payStructures: many(payStructures)
+  payStructures: many(payStructures),
+  taxSettings: one(taxSettings)
 }));
 
-// Goals table
+// Tax settings table (new)
+export const taxSettings = pgTable("tax_settings", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id).notNull().unique(),
+  federalTaxRate: numeric("federal_tax_rate").default("15"),
+  socialSecurityRate: numeric("social_security_rate").default("6.2"),
+  medicareRate: numeric("medicare_rate").default("1.45"),
+  stateTaxRate: numeric("state_tax_rate").default("0"),
+  stateName: text("state_name"),
+  selfEmploymentTax: numeric("self_employment_tax"),
+  useStandardDeduction: boolean("use_standard_deduction").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const taxSettingsRelations = relations(taxSettings, ({ one }) => ({
+  user: one(users, {
+    fields: [taxSettings.userId],
+    references: [users.id]
+  })
+}));
+
+// Goals table (enhanced)
 export const goals = pgTable("goals", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").references(() => users.id),
+  uuid: uuid("uuid").defaultRandom().notNull().unique(),
+  userId: integer("user_id").references(() => users.id).notNull(),
   name: text("name").notNull(),
   amount: numeric("amount").notNull(),
   saved: numeric("saved").notNull().default("0"),
@@ -48,6 +96,7 @@ export const goals = pgTable("goals", {
   deadline: timestamp("deadline"),
   isActive: boolean("is_active").default(true).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const goalRelations = relations(goals, ({ one }) => ({
@@ -57,10 +106,11 @@ export const goalRelations = relations(goals, ({ one }) => ({
   })
 }));
 
-// Expenses table
+// Expenses table (enhanced)
 export const expenses = pgTable("expenses", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").references(() => users.id),
+  uuid: uuid("uuid").defaultRandom().notNull().unique(),
+  userId: integer("user_id").references(() => users.id).notNull(),
   name: text("name").notNull(),
   amount: numeric("amount").notNull(),
   frequency: expenseFrequencyEnum("frequency").notNull(),
@@ -68,6 +118,7 @@ export const expenses = pgTable("expenses", {
   category: expenseCategoryEnum("category").notNull(),
   isActive: boolean("is_active").default(true).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const expenseRelations = relations(expenses, ({ one }) => ({
@@ -77,10 +128,11 @@ export const expenseRelations = relations(expenses, ({ one }) => ({
   })
 }));
 
-// Income logs table
+// Income logs table (enhanced)
 export const incomeLogs = pgTable("income_logs", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").references(() => users.id),
+  uuid: uuid("uuid").defaultRandom().notNull().unique(),
+  userId: integer("user_id").references(() => users.id).notNull(),
   date: date("date").defaultNow(),
   miles: integer("miles"),
   loads: integer("loads"),
@@ -88,6 +140,7 @@ export const incomeLogs = pgTable("income_logs", {
   income: numeric("income").notNull(),
   notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const incomeLogRelations = relations(incomeLogs, ({ one }) => ({
@@ -97,15 +150,17 @@ export const incomeLogRelations = relations(incomeLogs, ({ one }) => ({
   })
 }));
 
-// Pay Structure for different types of income
+// Pay Structure for different types of income (enhanced)
 export const payStructures = pgTable("pay_structures", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").references(() => users.id),
+  uuid: uuid("uuid").defaultRandom().notNull().unique(),
+  userId: integer("user_id").references(() => users.id).notNull(),
   payType: payTypeEnum("pay_type").notNull(),
   rate: numeric("rate").notNull(),
   description: text("description"),
   isActive: boolean("is_active").default(true).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const payStructureRelations = relations(payStructures, ({ one }) => ({
@@ -115,13 +170,47 @@ export const payStructureRelations = relations(payStructures, ({ one }) => ({
   })
 }));
 
+// Advertisements table (new)
+export const advertisements = pgTable("advertisements", {
+  id: serial("id").primaryKey(),
+  uuid: uuid("uuid").defaultRandom().notNull().unique(),
+  name: text("name").notNull(),
+  company: text("company").notNull(),
+  imageUrl: text("image_url").notNull(),
+  targetUrl: text("target_url").notNull(),
+  placement: adPlacementEnum("placement").notNull(),
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date").notNull(),
+  impressions: integer("impressions").default(0),
+  clicks: integer("clicks").default(0),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Zod schemas
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
+  email: true,
+  firstName: true,
+  lastName: true,
   role: true,
   availableCash: true,
   hideIncome: true,
+  profileImageUrl: true,
+  settings: true,
+});
+
+export const insertTaxSettingsSchema = createInsertSchema(taxSettings).pick({
+  userId: true,
+  federalTaxRate: true,
+  socialSecurityRate: true,
+  medicareRate: true,
+  stateTaxRate: true,
+  stateName: true,
+  selfEmploymentTax: true,
+  useStandardDeduction: true,
 });
 
 export const insertGoalSchema = createInsertSchema(goals).pick({
@@ -163,9 +252,23 @@ export const insertPayStructureSchema = createInsertSchema(payStructures).pick({
   isActive: true,
 });
 
+export const insertAdvertisementSchema = createInsertSchema(advertisements).pick({
+  name: true,
+  company: true,
+  imageUrl: true,
+  targetUrl: true,
+  placement: true,
+  startDate: true,
+  endDate: true,
+  isActive: true,
+});
+
 // Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+export type InsertTaxSettings = z.infer<typeof insertTaxSettingsSchema>;
+export type TaxSettings = typeof taxSettings.$inferSelect;
 
 export type InsertGoal = z.infer<typeof insertGoalSchema>;
 export type Goal = typeof goals.$inferSelect;
@@ -178,3 +281,6 @@ export type IncomeLog = typeof incomeLogs.$inferSelect;
 
 export type InsertPayStructure = z.infer<typeof insertPayStructureSchema>;
 export type PayStructure = typeof payStructures.$inferSelect;
+
+export type InsertAdvertisement = z.infer<typeof insertAdvertisementSchema>;
+export type Advertisement = typeof advertisements.$inferSelect;
