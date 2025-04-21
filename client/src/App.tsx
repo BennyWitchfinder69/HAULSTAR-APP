@@ -198,74 +198,111 @@ function DashboardPage() {
   const { state } = useContext(AppContext);
   
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen text-center">
       <header className="border-b-2 border-turquoise bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-20 items-center justify-center">
-          <div className="flex items-center gap-3">
+        <div className="container mx-auto text-center py-4">
+          <div className="flex justify-center items-center mb-4">
             <Link href="/">
-              <a className="flex items-center space-x-3">
-                <div className="w-12 h-12 overflow-hidden">
-                  <Truck className="h-10 w-10 text-turquoise" />
-                </div>
-                <span className="text-2xl font-bold tracking-tight bg-gradient-to-r from-turquoise to-gold bg-clip-text text-transparent">HAULSTAR</span>
+              <a className="flex flex-col items-center gap-1">
+                <img 
+                  src="/src/assets/haulstar-logo.webp" 
+                  alt="HaulStar Logo" 
+                  className="w-32 h-auto"
+                />
+                <span className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-turquoise via-gold to-orange bg-clip-text text-transparent">
+                  HAULSTAR
+                </span>
               </a>
             </Link>
           </div>
           
-          <div className="flex-1"></div>
-          
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex justify-center items-center gap-10 mb-4">
             <Link href="/dashboard">
-              <a className="text-base font-bold text-turquoise hover:underline">Dashboard</a>
+              <a className="text-lg font-bold text-turquoise hover:underline">Dashboard</a>
             </Link>
             <Link href="/expenses">
-              <a className="text-base font-bold text-orange hover:underline">Expenses</a>
+              <a className="text-lg font-bold text-orange hover:underline">Expenses</a>
             </Link>
             <Link href="/income">
-              <a className="text-base font-bold text-gold hover:underline">Income</a>
+              <a className="text-lg font-bold text-gold hover:underline">Income</a>
             </Link>
             <Link href="/goals">
-              <a className="text-base font-bold text-turquoise hover:underline">Goals</a>
+              <a className="text-lg font-bold text-turquoise hover:underline">Goals</a>
             </Link>
           </nav>
-        </div>
-        
-        {/* Calendar and location bar */}
-        <div className="container py-2">
-          <CalendarLocation />
+          
+          {/* Calendar and location bar */}
+          <div className="container py-2">
+            <CalendarLocation />
+          </div>
         </div>
       </header>
       
       <main className="flex-1 p-4 md:p-6">
-        <div className="container mx-auto">
+        <div className="container mx-auto text-center">
           {/* Centered header with dashboard title */}
-          <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-turquoise via-gold to-orange bg-clip-text text-transparent inline-block">Dashboard</h1>
-            <div className="w-32 h-1.5 mx-auto mt-3 bg-gradient-to-r from-turquoise to-orange rounded-full"></div>
-            <p className="font-semibold text-lg mt-3">Welcome to HaulStar</p>
+          <div className="mb-10 text-center">
+            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-turquoise via-gold to-orange bg-clip-text text-transparent inline-block">Dashboard</h1>
+            <div className="w-40 h-2 mx-auto mt-4 bg-gradient-to-r from-turquoise to-orange rounded-full"></div>
+            <p className="font-bold text-xl mt-4">Welcome to HaulStar</p>
           </div>
           
           {/* Top ad - full width and centered */}
-          <div className="mb-10 flex justify-center">
+          <div className="mb-12 flex justify-center">
             <AdvertisementSpace 
               placement="dashboard_top"
-              className="w-full max-w-[700px] rounded-lg overflow-hidden shadow-lg border-2 border-gold"
+              className="w-full max-w-[800px] rounded-lg overflow-hidden shadow-lg border-2 border-gold"
             />
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Main content area - wider on large screens */}
-            <div className="lg:col-span-8 grid grid-cols-1 gap-8">
-              <div className="bg-muted rounded-xl border-2 border-turquoise p-6 flex justify-center items-center">
+          {/* Three feature boxes in a row on desktop */}
+          <div className="flex flex-col md:flex-row justify-center gap-6 mb-12">
+            <div className="flex-1 flex flex-col items-center space-y-4 rounded-xl border-2 border-turquoise bg-background p-6">
+              <div className="rounded-full bg-turquoise/10 p-3">
+                <Truck className="h-8 w-8 text-turquoise" />
+              </div>
+              <h3 className="text-2xl font-bold">Trucker Path</h3>
+              <p className="text-base font-medium text-center">
+                Find truck stops, fuel, parking, and weigh stations
+              </p>
+            </div>
+            
+            <div className="flex-1 flex flex-col items-center space-y-4 rounded-xl border-2 border-gold bg-background p-6">
+              <div className="rounded-full bg-gold/10 p-3">
+                <DollarSign className="h-8 w-8 text-gold" />
+              </div>
+              <h3 className="text-2xl font-bold">Income Tracking</h3>
+              <p className="text-base font-medium text-center">
+                Record miles, loads, and earnings with detailed reports
+              </p>
+            </div>
+            
+            <div className="flex-1 flex flex-col items-center space-y-4 rounded-xl border-2 border-orange bg-background p-6">
+              <div className="rounded-full bg-orange/10 p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold">Analytics</h3>
+              <p className="text-base font-medium text-center">
+                Visualize your financial data with clear, interactive charts
+              </p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+            {/* Main content area */}
+            <div className="md:col-span-8 flex flex-col items-center gap-8">
+              <div className="bg-muted rounded-xl border-2 border-turquoise p-6 flex justify-center items-center w-full">
                 <img
-                  src={"/assets/DALL·E 2025-04-20 19.01.44 - Logo for 'HaulStar' featuring a cab-over semi-truck inspired by the classic Kenworth K100 truck design. The truck should have a flat-nose, squared fro.webp"}
-                  alt="Dashboard Preview"
+                  src="/src/assets/haulstar-logo.webp"
+                  alt="HaulStar Logo"
                   className="w-full max-w-[500px] h-auto rounded-lg shadow-lg"
                 />
               </div>
               
               {/* Double ad space in the main content */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                 <AdvertisementSpace 
                   placement="dashboard_sidebar"
                   className="h-full min-h-[200px] rounded-lg overflow-hidden shadow-lg border-2 border-orange"
@@ -277,63 +314,59 @@ function DashboardPage() {
               </div>
               
               {/* Bottom full width ad */}
-              <div className="mt-4">
-                <AdvertisementSpace 
-                  placement="dashboard_bottom"
-                  className="w-full rounded-lg overflow-hidden shadow-lg border-2 border-gold"
-                />
-              </div>
+              <AdvertisementSpace 
+                placement="dashboard_bottom"
+                className="w-full rounded-lg overflow-hidden shadow-lg border-2 border-gold"
+              />
             </div>
             
-            {/* Sidebar - 4 columns on large screens */}
-            <div className="lg:col-span-4">
-              <div className="space-y-8">
-                {/* Import and use the TruckerPathIntegration component */}
-                <TruckerPathIntegration />
-                
-                {/* Side advertisement */}
-                <AdvertisementSpace 
-                  placement="expenses_page"
-                  className="w-full min-h-[250px] rounded-lg overflow-hidden shadow-lg border-2 border-orange"
-                />
-                
-                {/* Quick tips section */}
-                <div className="bg-muted rounded-xl border-2 border-turquoise p-5">
-                  <h3 className="font-bold text-xl mb-4 text-center bg-gradient-to-r from-gold to-orange bg-clip-text text-transparent">Quick Tips</h3>
-                  <ul className="text-base space-y-4">
-                    <li className="flex items-start">
-                      <span className="inline-block bg-turquoise/20 text-turquoise rounded-full p-1.5 mr-3 mt-0.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      </span>
-                      <span className="font-medium">Log your miles daily for more accurate reports</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="inline-block bg-gold/20 text-gold rounded-full p-1.5 mr-3 mt-0.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      </span>
-                      <span className="font-medium">Keep receipts for all business expenses</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="inline-block bg-orange/20 text-orange rounded-full p-1.5 mr-3 mt-0.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      </span>
-                      <span className="font-medium">Plan ahead for quarterly tax payments</span>
-                    </li>
-                  </ul>
-                </div>
-                
-                {/* Additional ad space */}
-                <AdvertisementSpace 
-                  placement="goals_page"
-                  className="w-full min-h-[180px] rounded-lg overflow-hidden shadow-lg border-2 border-gold"
-                />
+            {/* Sidebar */}
+            <div className="md:col-span-4 flex flex-col items-center gap-8">
+              {/* Import and use the TruckerPathIntegration component */}
+              <TruckerPathIntegration className="w-full" />
+              
+              {/* Side advertisement */}
+              <AdvertisementSpace 
+                placement="expenses_page"
+                className="w-full min-h-[250px] rounded-lg overflow-hidden shadow-lg border-2 border-orange"
+              />
+              
+              {/* Quick tips section */}
+              <div className="bg-muted rounded-xl border-2 border-turquoise p-6 w-full">
+                <h3 className="font-bold text-2xl mb-6 text-center bg-gradient-to-r from-gold to-orange bg-clip-text text-transparent">Quick Tips</h3>
+                <ul className="text-base space-y-4 text-center">
+                  <li className="flex items-center">
+                    <span className="inline-block bg-turquoise/20 text-turquoise rounded-full p-1.5 mr-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                    <span className="font-bold">Log your miles daily for more accurate reports</span>
+                  </li>
+                  <li className="flex items-center">
+                    <span className="inline-block bg-gold/20 text-gold rounded-full p-1.5 mr-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                    <span className="font-bold">Keep receipts for all business expenses</span>
+                  </li>
+                  <li className="flex items-center">
+                    <span className="inline-block bg-orange/20 text-orange rounded-full p-1.5 mr-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                    <span className="font-bold">Plan ahead for quarterly tax payments</span>
+                  </li>
+                </ul>
               </div>
+              
+              {/* Additional ad space */}
+              <AdvertisementSpace 
+                placement="goals_page"
+                className="w-full min-h-[180px] rounded-lg overflow-hidden shadow-lg border-2 border-gold"
+              />
             </div>
           </div>
         </div>
