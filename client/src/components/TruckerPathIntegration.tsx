@@ -7,33 +7,55 @@ interface TruckerPathIntegrationProps {
 }
 
 export default function TruckerPathIntegration({ className = "" }: TruckerPathIntegrationProps) {
+  // Function to handle direct feature access
+  const handleFeatureClick = (feature: string) => {
+    // In a real app, these would directly access the features through an API
+    // instead of directing to the sign-up page
+    switch(feature) {
+      case 'truck_stops':
+        window.open('https://truckerpath.com/trucker-tools-app/truck-stops/', '_blank');
+        break;
+      case 'fuel':
+        window.open('https://truckerpath.com/trucker-tools-app/fuel-prices/', '_blank');
+        break;
+      case 'parking':
+        window.open('https://truckerpath.com/trucker-tools-app/truck-parking/', '_blank');
+        break;
+      case 'weigh_stations':
+        window.open('https://truckerpath.com/trucker-tools-app/weigh-stations/', '_blank');
+        break;
+      default:
+        window.open('https://truckerpath.com/trucker-tools-app/', '_blank');
+    }
+  };
+
   // List of Trucker Path links with specific brand colors
   const truckerPathLinks = [
     {
       title: "Truck Stops",
       description: "Find nearby truck stops with amenities and reviews",
-      url: "https://truckerpath.com/truck-stops/",
+      feature: "truck_stops",
       icon: <MapPin className="h-6 w-6" />,
       color: "turquoise"
     },
     {
       title: "Fuel Prices",
       description: "Compare the cheapest diesel prices on your route",
-      url: "https://truckerpath.com/fuel/",
+      feature: "fuel",
       icon: <Fuel className="h-6 w-6" />,
       color: "gold"
     },
     {
       title: "Parking",
       description: "Locate available truck parking spots near you",
-      url: "https://truckerpath.com/parking/",
+      feature: "parking",
       icon: <ParkingCircle className="h-6 w-6" />,
       color: "orange"
     },
     {
       title: "Weigh Stations",
       description: "Get real-time weigh station status updates",
-      url: "https://truckerpath.com/weigh-stations/",
+      feature: "weigh_stations",
       icon: <Scale className="h-6 w-6" />,
       color: "turquoise"
     }
@@ -55,16 +77,11 @@ export default function TruckerPathIntegration({ className = "" }: TruckerPathIn
       <CardContent>
         <div className="grid grid-cols-1 gap-3">
           {truckerPathLinks.map((link, index) => (
-            <a 
-              key={index}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="no-underline"
-            >
+            <div key={index} className="w-full">
               <Button 
                 variant="outline" 
                 className={`w-full h-auto py-3 px-4 flex items-center gap-3 border-2 border-${link.color} hover:bg-${link.color}/5 group`}
+                onClick={() => handleFeatureClick(link.feature)}
               >
                 <div className={`p-2 rounded-full bg-${link.color}/10 text-${link.color}`}>
                   {link.icon}
@@ -79,7 +96,7 @@ export default function TruckerPathIntegration({ className = "" }: TruckerPathIn
                   </div>
                 </div>
               </Button>
-            </a>
+            </div>
           ))}
         </div>
       </CardContent>
