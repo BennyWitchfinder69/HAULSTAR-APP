@@ -8,6 +8,7 @@ import { AppContext } from "./context/AppContext";
 import { Button } from "@/components/ui/button";
 import { Truck, DollarSign, ChevronRight } from "lucide-react";
 import AdvertisementSpace from "./components/AdvertisementSpace";
+import TruckerPathIntegration from "./components/TruckerPathIntegration";
 
 function HomePage() {
   const [, setLocation] = useLocation();
@@ -175,32 +176,87 @@ function DashboardPage() {
       
       <main className="flex-1 p-6">
         <div className="container mx-auto">
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold">Dashboard</h1>
-            <p className="text-muted-foreground">Welcome to HaulStar</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="col-span-2">
-              <img
-                src={"/assets/DALL·E 2025-04-20 19.01.44 - Logo for 'HaulStar' featuring a cab-over semi-truck inspired by the classic Kenworth K100 truck design. The truck should have a flat-nose, squared fro.webp"}
-                alt="Dashboard Preview"
-                className="w-full h-auto rounded-lg shadow-lg"
-              />
-            </div>
+          <div className="mb-6 flex flex-col md:flex-row md:justify-between md:items-center">
             <div>
+              <h1 className="text-2xl font-bold">Dashboard</h1>
+              <p className="text-muted-foreground">Welcome to HaulStar</p>
+            </div>
+            <div className="mt-4 md:mt-0">
               <AdvertisementSpace 
-                placement="dashboard_sidebar"
-                className="h-full"
+                placement="dashboard_top"
+                className="w-full md:w-auto max-w-[400px]"
               />
             </div>
           </div>
           
-          <div className="mt-6">
-            <AdvertisementSpace 
-              placement="dashboard_bottom"
-              className="w-full"
-            />
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Main content area - 3 columns on large screens */}
+            <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-2">
+                <img
+                  src={"/assets/DALL·E 2025-04-20 19.01.44 - Logo for 'HaulStar' featuring a cab-over semi-truck inspired by the classic Kenworth K100 truck design. The truck should have a flat-nose, squared fro.webp"}
+                  alt="Dashboard Preview"
+                  className="w-full h-auto rounded-lg shadow-lg"
+                />
+              </div>
+              <div className="md:col-span-1">
+                <div className="h-full grid grid-rows-2 gap-4">
+                  <AdvertisementSpace 
+                    placement="dashboard_sidebar"
+                    className="h-full"
+                  />
+                  <AdvertisementSpace 
+                    placement="income_page"
+                    className="h-full"
+                  />
+                </div>
+              </div>
+              <div className="md:col-span-3">
+                <AdvertisementSpace 
+                  placement="dashboard_bottom"
+                  className="w-full"
+                />
+              </div>
+            </div>
+            
+            {/* Sidebar - 1 column on large screens */}
+            <div className="lg:col-span-1">
+              <div className="space-y-6">
+                {/* Import and use the TruckerPathIntegration component */}
+                <TruckerPathIntegration />
+                
+                {/* Add more sidebar widgets here */}
+                <div className="bg-muted rounded-lg p-4">
+                  <h3 className="font-semibold mb-2">Quick Tips</h3>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start">
+                      <span className="inline-block bg-primary/20 text-primary rounded-full p-1 mr-2 mt-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                      <span>Log your miles daily for more accurate reports</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="inline-block bg-primary/20 text-primary rounded-full p-1 mr-2 mt-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                      <span>Keep receipts for all business expenses</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="inline-block bg-primary/20 text-primary rounded-full p-1 mr-2 mt-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                      <span>Plan ahead for quarterly tax payments</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </main>
