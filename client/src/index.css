@@ -5,31 +5,44 @@
 :root {
   --turquoise: #40E0D0;
   --gold: #FFD700;
-  --coral: #FF7F50;
+  --orange: #FF8C00;
 }
 
+/* Using only turquoise, gold, and orange for all colors */
 .bg-turquoise {
   background-color: var(--turquoise);
 }
 
-.bg-coral {
-  background-color: var(--coral);
+.bg-gold {
+  background-color: var(--gold);
+}
+
+.bg-orange {
+  background-color: var(--orange);
 }
 
 .text-turquoise {
   color: var(--turquoise);
 }
 
-.text-coral {
-  color: var(--coral);
+.text-gold {
+  color: var(--gold);
+}
+
+.text-orange {
+  color: var(--orange);
 }
 
 .border-turquoise {
   border-color: var(--turquoise);
 }
 
-.border-coral {
-  border-color: var(--coral);
+.border-gold {
+  border-color: var(--gold);
+}
+
+.border-orange {
+  border-color: var(--orange);
 }
 
 /* Override background */
@@ -38,17 +51,25 @@
 }
 
 .bg-muted {
-  background-color: #f0f9ff; /* Light blue background */
+  background-color: rgba(64, 224, 208, 0.05); /* Very light turquoise */
+}
+
+.text-foreground {
+  color: #333333;
+}
+
+.text-muted-foreground {
+  color: #666666;
 }
 
 /* Override button styles */
-.btn-coral {
-  background-color: var(--coral);
+.btn-orange {
+  background-color: var(--orange);
   color: white;
 }
 
-.btn-coral:hover {
-  background-color: #ff6a45;
+.btn-orange:hover {
+  background-color: #FF7300;
 }
 
 .btn-turquoise {
@@ -57,7 +78,47 @@
 }
 
 .btn-turquoise:hover {
-  background-color: #36c7b5;
+  background-color: #36D6C6;
+}
+
+.btn-gold {
+  background-color: var(--gold);
+  color: black;
+}
+
+.btn-gold:hover {
+  background-color: #E6C200;
+}
+
+/* More modern font styling */
+@layer base {
+  body {
+    @apply font-sans antialiased;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+}
+
+/* Improve text visibility */
+.strong-text {
+  font-weight: 700;
+}
+
+.semi-bold {
+  font-weight: 600;
+}
+
+/* Center everything */
+.center-all {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 @layer base {

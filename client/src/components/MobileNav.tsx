@@ -16,47 +16,47 @@ export default function MobileNav() {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-turquoise bg-white md:hidden shadow-lg">
-      <div className="grid grid-cols-5 h-16">
+    <div className="fixed bottom-0 left-0 right-0 z-50 border-t-2 border-turquoise bg-white md:hidden shadow-lg">
+      <div className="grid grid-cols-5 h-18">
         <Link href="/dashboard">
-          <a className={`flex flex-col items-center justify-center space-y-1 hover:text-turquoise 
+          <a className={`flex flex-col items-center justify-center space-y-1 
             ${isActive("/dashboard") ? "text-turquoise" : "text-muted-foreground"}`}>
-            <LayoutDashboard className="h-5 w-5" />
-            <span className="text-xs">Home</span>
+            <LayoutDashboard className="h-6 w-6" />
+            <span className="text-xs font-bold">Home</span>
           </a>
         </Link>
         <Link href="/expenses">
-          <a className={`flex flex-col items-center justify-center space-y-1 hover:text-coral 
-            ${isActive("/expenses") ? "text-coral" : "text-muted-foreground"}`}>
-            <TrendingUp className="h-5 w-5" />
-            <span className="text-xs">Expenses</span>
+          <a className={`flex flex-col items-center justify-center space-y-1 
+            ${isActive("/expenses") ? "text-orange" : "text-muted-foreground"}`}>
+            <TrendingUp className="h-6 w-6" />
+            <span className="text-xs font-bold">Expenses</span>
           </a>
         </Link>
         
         {/* Central Add Button */}
         <div className="relative flex items-center justify-center">
-          <div className="absolute -top-6 flex items-center justify-center">
+          <div className="absolute -top-7 flex items-center justify-center">
             <Link href="/add">
-              <a className="rounded-full bg-gradient-to-r from-turquoise to-coral text-white p-3 shadow-lg border-4 border-white">
-                <Plus className="h-6 w-6" />
+              <a className="rounded-full bg-gradient-to-r from-turquoise to-orange text-white p-4 shadow-lg border-4 border-white">
+                <Plus className="h-7 w-7" />
               </a>
             </Link>
           </div>
-          <span className="text-xs text-muted-foreground mt-6">Add</span>
+          <span className="text-xs font-bold text-muted-foreground mt-7">Add</span>
         </div>
         
         <Link href="/income">
-          <a className={`flex flex-col items-center justify-center space-y-1 hover:text-primary 
-            ${isActive("/income") ? "text-primary" : "text-muted-foreground"}`}>
-            <DollarSign className="h-5 w-5" />
-            <span className="text-xs">Income</span>
+          <a className={`flex flex-col items-center justify-center space-y-1 
+            ${isActive("/income") ? "text-gold" : "text-muted-foreground"}`}>
+            <DollarSign className="h-6 w-6" />
+            <span className="text-xs font-bold">Income</span>
           </a>
         </Link>
         <Link href="/goals">
-          <a className={`flex flex-col items-center justify-center space-y-1 hover:text-turquoise 
+          <a className={`flex flex-col items-center justify-center space-y-1 
             ${isActive("/goals") ? "text-turquoise" : "text-muted-foreground"}`}>
-            <PiggyBank className="h-5 w-5" />
-            <span className="text-xs">Goals</span>
+            <PiggyBank className="h-6 w-6" />
+            <span className="text-xs font-bold">Goals</span>
           </a>
         </Link>
       </div>

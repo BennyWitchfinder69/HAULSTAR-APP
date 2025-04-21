@@ -16,114 +16,134 @@ function HomePage() {
   const [, setLocation] = useLocation();
   
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="border-b border-turquoise bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
+    <div className="flex flex-col min-h-screen text-center">
+      <header className="border-b-2 border-turquoise bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto text-center py-4">
+          <div className="flex justify-center items-center mb-4">
             <Link href="/">
-              <a className="flex items-center space-x-2">
-                <div className="w-10 h-10 overflow-hidden">
-                  <Truck className="h-8 w-8 text-turquoise" />
-                </div>
-                <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-turquoise to-primary bg-clip-text text-transparent">HAULSTAR</span>
+              <a className="flex flex-col items-center gap-1">
+                <img 
+                  src="/src/assets/haulstar-logo.webp" 
+                  alt="HaulStar Logo" 
+                  className="w-32 h-auto"
+                />
+                <span className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-turquoise via-gold to-orange bg-clip-text text-transparent">
+                  HAULSTAR
+                </span>
               </a>
             </Link>
           </div>
           
-          <nav className="flex items-center gap-4">
-            <Button onClick={() => setLocation("/dashboard")} variant="ghost" className="hover:text-turquoise">
+          <nav className="flex justify-center items-center gap-6 mb-4">
+            <Button 
+              onClick={() => setLocation("/dashboard")} 
+              variant="outline" 
+              className="border-2 border-turquoise text-turquoise hover:bg-turquoise/10 font-bold"
+            >
               Demo
             </Button>
-            <Button onClick={() => setLocation("/login")} className="bg-gradient-to-r from-turquoise to-coral text-white border-none">
+            <Button 
+              onClick={() => setLocation("/login")} 
+              className="bg-gradient-to-r from-turquoise to-orange text-white border-none font-bold"
+            >
               Get Started
             </Button>
           </nav>
-        </div>
-        
-        {/* Calendar and location bar */}
-        <div className="container py-2">
-          <CalendarLocation />
+          
+          {/* Calendar and location bar */}
+          <div className="container py-2">
+            <CalendarLocation />
+          </div>
         </div>
       </header>
       
       <main className="flex-1">
-        <section className="py-12 md:py-24 lg:py-32 bg-background">
-          <div className="container grid gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-12">
-            <div className="space-y-4">
-              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+        <section className="py-12 md:py-16 lg:py-20 bg-background">
+          <div className="container mx-auto px-4 md:px-6 text-center">
+            <div className="max-w-3xl mx-auto text-center">
+              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl mb-8 bg-gradient-to-r from-turquoise via-gold to-orange bg-clip-text text-transparent">
                 Financial Management for Professional Truckers
               </h1>
-              <div className="flex items-center gap-2 mt-2">
-                <span className="bg-primary text-black text-sm font-medium px-2.5 py-0.5 rounded-full">
+              
+              <div className="flex justify-center gap-4 mb-8">
+                <span className="bg-gold text-black text-lg font-bold px-5 py-1.5 rounded-full">
                   100% FREE
                 </span>
-                <span className="bg-blue-600 text-white text-sm font-medium px-2.5 py-0.5 rounded-full">
+                <span className="bg-turquoise text-white text-lg font-bold px-5 py-1.5 rounded-full">
                   Created By Truckers
                 </span>
               </div>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
+              
+              <p className="text-xl font-medium mx-auto mb-10 max-w-2xl">
                 Track your miles, expenses, and income. Plan your finances and reach your goals while on the road. 
-                Designed by expert truckers who understand your professional needs.
+                <span className="block mt-3 text-orange font-bold">Designed by expert truckers who understand your professional needs.</span>
               </p>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button onClick={() => setLocation("/dashboard")} size="lg">
-                  Try Demo <ChevronRight className="ml-2 h-4 w-4" />
+              
+              <div className="flex justify-center mb-12">
+                <Button 
+                  onClick={() => setLocation("/dashboard")} 
+                  size="lg" 
+                  className="bg-gradient-to-r from-turquoise to-gold text-black border-none font-bold text-lg h-14 px-10"
+                >
+                  Try Demo <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <div className="w-full max-w-sm">
+              
+              <div className="w-full max-w-lg mx-auto">
                 <AdvertisementSpace 
                   placement="dashboard_top"
-                  className="mx-auto shadow-lg"
+                  className="mx-auto shadow-lg border-2 border-gold rounded-lg overflow-hidden"
                 />
               </div>
             </div>
           </div>
         </section>
         
-        <section className="py-12 md:py-24 lg:py-32 bg-muted">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-primary px-3 py-1 text-sm text-primary-foreground">
-                  Key Features
-                </div>
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-                  Built for Truckers
-                </h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  All the tools you need to take control of your finances on the road
-                </p>
+        <section className="py-12 md:py-16 lg:py-20 bg-muted">
+          <div className="container mx-auto px-4 md:px-6 text-center">
+            <div className="text-center mb-12">
+              <div className="inline-block rounded-full bg-gold px-6 py-2 text-base text-black font-bold mb-6">
+                Key Features
               </div>
+              
+              <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6 bg-gradient-to-r from-turquoise to-orange bg-clip-text text-transparent">
+                Built for Truckers
+              </h2>
+              
+              <p className="text-xl font-medium max-w-2xl mx-auto">
+                All the tools you need to take control of your finances on the road
+              </p>
             </div>
-            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
-              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-4">
-                <div className="rounded-full bg-primary/10 p-2">
-                  <Truck className="h-6 w-6 text-primary" />
+            
+            <div className="flex flex-col md:flex-row justify-center gap-6 max-w-5xl mx-auto">
+              <div className="flex-1 flex flex-col items-center space-y-4 rounded-xl border-2 border-turquoise bg-background p-6">
+                <div className="rounded-full bg-turquoise/10 p-3">
+                  <Truck className="h-8 w-8 text-turquoise" />
                 </div>
-                <h3 className="text-xl font-bold">Role-Specific Features</h3>
-                <p className="text-sm text-muted-foreground text-center">
+                <h3 className="text-2xl font-bold">Role-Specific</h3>
+                <p className="text-base font-medium text-center">
                   Customized tools for company drivers and owner-operators
                 </p>
               </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-4">
-                <div className="rounded-full bg-primary/10 p-2">
-                  <DollarSign className="h-6 w-6 text-primary" />
+              
+              <div className="flex-1 flex flex-col items-center space-y-4 rounded-xl border-2 border-gold bg-background p-6">
+                <div className="rounded-full bg-gold/10 p-3">
+                  <DollarSign className="h-8 w-8 text-gold" />
                 </div>
-                <h3 className="text-xl font-bold">Income Tracking</h3>
-                <p className="text-sm text-muted-foreground text-center">
+                <h3 className="text-2xl font-bold">Income Tracking</h3>
+                <p className="text-base font-medium text-center">
                   Record miles, loads, and earnings with detailed reports
                 </p>
               </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-4">
-                <div className="rounded-full bg-primary/10 p-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              
+              <div className="flex-1 flex flex-col items-center space-y-4 rounded-xl border-2 border-orange bg-background p-6">
+                <div className="rounded-full bg-orange/10 p-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold">Dashboard Analytics</h3>
-                <p className="text-sm text-muted-foreground text-center">
+                <h3 className="text-2xl font-bold">Analytics</h3>
+                <p className="text-base font-medium text-center">
                   Visualize your financial data with clear, interactive charts
                 </p>
               </div>
@@ -132,33 +152,37 @@ function HomePage() {
         </section>
       </main>
       
-      <footer className="border-t py-6 md:py-0">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-          <div className="text-center md:text-left">
-            <p className="text-sm text-muted-foreground md:text-base">
+      <footer className="border-t-2 border-turquoise py-8 text-center">
+        <div className="container mx-auto px-4">
+          <div className="mb-6">
+            <p className="text-base font-bold">
               © 2025 HaulStar. All rights reserved.
             </p>
-            <p className="text-xs text-muted-foreground mt-1">
-              <span className="text-primary font-medium">Created by professional truckers</span> for professional drivers.
+            <p className="text-lg font-bold mt-2">
+              <span className="text-gold">Created by professional truckers</span>
+              <span className="mx-2">for</span>
+              <span className="text-turquoise">professional drivers</span>
             </p>
           </div>
-          <div className="flex flex-col items-center md:items-end">
-            <div className="inline-flex items-center mb-2">
-              <span className="bg-primary/20 text-primary px-2 py-0.5 rounded text-xs font-medium">
+          
+          <div className="text-center">
+            <div className="flex justify-center gap-4 mb-4">
+              <span className="bg-gold text-black px-4 py-1 rounded-full text-base font-bold">
                 100% FREE
               </span>
-              <span className="bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded text-xs font-medium ml-2">
+              <span className="bg-orange text-white px-4 py-1 rounded-full text-base font-bold">
                 No Ads for Pro Users
               </span>
             </div>
-            <div className="flex gap-4">
+            
+            <div className="flex justify-center gap-8">
               <Link href="/terms">
-                <a className="text-sm text-muted-foreground hover:underline md:text-base">
+                <a className="text-base font-medium text-turquoise hover:underline">
                   Terms
                 </a>
               </Link>
               <Link href="/privacy">
-                <a className="text-sm text-muted-foreground hover:underline md:text-base">
+                <a className="text-base font-medium text-orange hover:underline">
                   Privacy
                 </a>
               </Link>
@@ -175,31 +199,33 @@ function DashboardPage() {
   
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="border-b border-turquoise bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
+      <header className="border-b-2 border-turquoise bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-20 items-center justify-center">
+          <div className="flex items-center gap-3">
             <Link href="/">
-              <a className="flex items-center space-x-2">
-                <div className="w-10 h-10 overflow-hidden">
-                  <Truck className="h-8 w-8 text-turquoise" />
+              <a className="flex items-center space-x-3">
+                <div className="w-12 h-12 overflow-hidden">
+                  <Truck className="h-10 w-10 text-turquoise" />
                 </div>
-                <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-turquoise to-primary bg-clip-text text-transparent">HAULSTAR</span>
+                <span className="text-2xl font-bold tracking-tight bg-gradient-to-r from-turquoise to-gold bg-clip-text text-transparent">HAULSTAR</span>
               </a>
             </Link>
           </div>
           
+          <div className="flex-1"></div>
+          
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/dashboard">
-              <a className="text-sm font-medium hover:text-turquoise">Dashboard</a>
+              <a className="text-base font-bold text-turquoise hover:underline">Dashboard</a>
             </Link>
             <Link href="/expenses">
-              <a className="text-sm font-medium hover:text-turquoise">Expenses</a>
+              <a className="text-base font-bold text-orange hover:underline">Expenses</a>
             </Link>
             <Link href="/income">
-              <a className="text-sm font-medium hover:text-coral">Income</a>
+              <a className="text-base font-bold text-gold hover:underline">Income</a>
             </Link>
             <Link href="/goals">
-              <a className="text-sm font-medium hover:text-primary">Goals</a>
+              <a className="text-base font-bold text-turquoise hover:underline">Goals</a>
             </Link>
           </nav>
         </div>
@@ -213,24 +239,24 @@ function DashboardPage() {
       <main className="flex-1 p-4 md:p-6">
         <div className="container mx-auto">
           {/* Centered header with dashboard title */}
-          <div className="mb-6 text-center">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-turquoise via-primary to-coral bg-clip-text text-transparent inline-block">Dashboard</h1>
-            <div className="w-24 h-1 mx-auto mt-2 bg-gradient-to-r from-turquoise to-coral rounded-full"></div>
-            <p className="text-muted-foreground mt-2">Welcome to HaulStar</p>
+          <div className="mb-8 text-center">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-turquoise via-gold to-orange bg-clip-text text-transparent inline-block">Dashboard</h1>
+            <div className="w-32 h-1.5 mx-auto mt-3 bg-gradient-to-r from-turquoise to-orange rounded-full"></div>
+            <p className="font-semibold text-lg mt-3">Welcome to HaulStar</p>
           </div>
           
           {/* Top ad - full width and centered */}
-          <div className="mb-8 flex justify-center">
+          <div className="mb-10 flex justify-center">
             <AdvertisementSpace 
               placement="dashboard_top"
-              className="w-full max-w-[600px]"
+              className="w-full max-w-[700px] rounded-lg overflow-hidden shadow-lg border-2 border-gold"
             />
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Main content area - wider on large screens */}
-            <div className="lg:col-span-8 grid grid-cols-1 gap-6">
-              <div className="bg-muted/30 rounded-lg p-4 flex justify-center items-center">
+            <div className="lg:col-span-8 grid grid-cols-1 gap-8">
+              <div className="bg-muted rounded-xl border-2 border-turquoise p-6 flex justify-center items-center">
                 <img
                   src={"/assets/DALL·E 2025-04-20 19.01.44 - Logo for 'HaulStar' featuring a cab-over semi-truck inspired by the classic Kenworth K100 truck design. The truck should have a flat-nose, squared fro.webp"}
                   alt="Dashboard Preview"
@@ -239,14 +265,14 @@ function DashboardPage() {
               </div>
               
               {/* Double ad space in the main content */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <AdvertisementSpace 
                   placement="dashboard_sidebar"
-                  className="h-full min-h-[180px]"
+                  className="h-full min-h-[200px] rounded-lg overflow-hidden shadow-lg border-2 border-orange"
                 />
                 <AdvertisementSpace 
                   placement="income_page"
-                  className="h-full min-h-[180px]"
+                  className="h-full min-h-[200px] rounded-lg overflow-hidden shadow-lg border-2 border-turquoise"
                 />
               </div>
               
@@ -254,50 +280,50 @@ function DashboardPage() {
               <div className="mt-4">
                 <AdvertisementSpace 
                   placement="dashboard_bottom"
-                  className="w-full"
+                  className="w-full rounded-lg overflow-hidden shadow-lg border-2 border-gold"
                 />
               </div>
             </div>
             
             {/* Sidebar - 4 columns on large screens */}
             <div className="lg:col-span-4">
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {/* Import and use the TruckerPathIntegration component */}
                 <TruckerPathIntegration />
                 
                 {/* Side advertisement */}
                 <AdvertisementSpace 
                   placement="expenses_page"
-                  className="w-full min-h-[250px]"
+                  className="w-full min-h-[250px] rounded-lg overflow-hidden shadow-lg border-2 border-orange"
                 />
                 
                 {/* Quick tips section */}
-                <div className="bg-muted rounded-lg p-4">
-                  <h3 className="font-semibold mb-2 text-center">Quick Tips</h3>
-                  <ul className="text-sm space-y-2">
+                <div className="bg-muted rounded-xl border-2 border-turquoise p-5">
+                  <h3 className="font-bold text-xl mb-4 text-center bg-gradient-to-r from-gold to-orange bg-clip-text text-transparent">Quick Tips</h3>
+                  <ul className="text-base space-y-4">
                     <li className="flex items-start">
-                      <span className="inline-block bg-primary/20 text-primary rounded-full p-1 mr-2 mt-0.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                      <span className="inline-block bg-turquoise/20 text-turquoise rounded-full p-1.5 mr-3 mt-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                       </span>
-                      <span>Log your miles daily for more accurate reports</span>
+                      <span className="font-medium">Log your miles daily for more accurate reports</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="inline-block bg-primary/20 text-primary rounded-full p-1 mr-2 mt-0.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                      <span className="inline-block bg-gold/20 text-gold rounded-full p-1.5 mr-3 mt-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                       </span>
-                      <span>Keep receipts for all business expenses</span>
+                      <span className="font-medium">Keep receipts for all business expenses</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="inline-block bg-primary/20 text-primary rounded-full p-1 mr-2 mt-0.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                      <span className="inline-block bg-orange/20 text-orange rounded-full p-1.5 mr-3 mt-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                       </span>
-                      <span>Plan ahead for quarterly tax payments</span>
+                      <span className="font-medium">Plan ahead for quarterly tax payments</span>
                     </li>
                   </ul>
                 </div>
@@ -305,7 +331,7 @@ function DashboardPage() {
                 {/* Additional ad space */}
                 <AdvertisementSpace 
                   placement="goals_page"
-                  className="w-full min-h-[180px]"
+                  className="w-full min-h-[180px] rounded-lg overflow-hidden shadow-lg border-2 border-gold"
                 />
               </div>
             </div>

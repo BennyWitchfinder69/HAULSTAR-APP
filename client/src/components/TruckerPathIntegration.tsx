@@ -1,60 +1,59 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, MapPin, Fuel, ParkingCircle, Scale } from "lucide-react";
+import { ExternalLink, MapPin, Fuel, ParkingCircle, Scale, Truck } from "lucide-react";
 
 interface TruckerPathIntegrationProps {
   className?: string;
 }
 
 export default function TruckerPathIntegration({ className = "" }: TruckerPathIntegrationProps) {
-  // List of Trucker Path links
+  // List of Trucker Path links with specific brand colors
   const truckerPathLinks = [
     {
       title: "Truck Stops",
       description: "Find nearby truck stops with amenities and reviews",
       url: "https://truckerpath.com/truck-stops/",
-      icon: <MapPin className="h-5 w-5" />
+      icon: <MapPin className="h-6 w-6" />,
+      color: "turquoise"
     },
     {
       title: "Fuel Prices",
       description: "Compare the cheapest diesel prices on your route",
       url: "https://truckerpath.com/fuel/",
-      icon: <Fuel className="h-5 w-5" />
+      icon: <Fuel className="h-6 w-6" />,
+      color: "gold"
     },
     {
       title: "Parking",
       description: "Locate available truck parking spots near you",
       url: "https://truckerpath.com/parking/",
-      icon: <ParkingCircle className="h-5 w-5" />
+      icon: <ParkingCircle className="h-6 w-6" />,
+      color: "orange"
     },
     {
       title: "Weigh Stations",
       description: "Get real-time weigh station status updates",
       url: "https://truckerpath.com/weigh-stations/",
-      icon: <Scale className="h-5 w-5" />
+      icon: <Scale className="h-6 w-6" />,
+      color: "turquoise"
     }
   ];
 
   return (
-    <Card className={`border border-muted-foreground/20 ${className}`}>
-      <CardHeader className="pb-3">
-        <CardTitle className="flex items-center justify-between">
-          <span>Trucker Path Tools</span>
-          <img 
-            src="/assets/truckerpath-logo.png" 
-            alt="Trucker Path Logo"
-            className="h-6 w-auto opacity-70"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-            }}
-          />
+    <Card className={`border-2 border-turquoise ${className}`}>
+      <CardHeader className="pb-3 text-center">
+        <CardTitle className="text-2xl font-bold text-center">
+          <div className="w-full flex justify-center items-center gap-2 mb-1">
+            <Truck className="h-6 w-6 text-orange" />
+            <span className="bg-gradient-to-r from-turquoise to-gold bg-clip-text text-transparent">Trucker Path</span>
+          </div>
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-center font-semibold">
           Access essential road tools from Trucker Path
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3">
           {truckerPathLinks.map((link, index) => (
             <a 
               key={index}
@@ -65,17 +64,17 @@ export default function TruckerPathIntegration({ className = "" }: TruckerPathIn
             >
               <Button 
                 variant="outline" 
-                className="w-full h-auto py-3 px-4 justify-start gap-3 group hover:border-primary"
+                className={`w-full h-auto py-3 px-4 flex items-center gap-3 border-2 border-${link.color} hover:bg-${link.color}/5 group`}
               >
-                <div className="p-2 rounded-full bg-primary/10 text-primary group-hover:bg-primary/20">
+                <div className={`p-2 rounded-full bg-${link.color}/10 text-${link.color}`}>
                   {link.icon}
                 </div>
-                <div className="text-left">
-                  <div className="font-medium flex items-center">
+                <div className="text-center flex-1">
+                  <div className="font-bold flex items-center justify-center text-base">
                     {link.title}
-                    <ExternalLink className="ml-1.5 h-3.5 w-3.5 opacity-70" />
+                    <ExternalLink className="ml-1.5 h-4 w-4 opacity-70" />
                   </div>
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="text-sm font-medium mt-1">
                     {link.description}
                   </div>
                 </div>

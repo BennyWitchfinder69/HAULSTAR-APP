@@ -64,43 +64,44 @@ export default function CalendarLocation({ className = "" }: CalendarLocationPro
   };
   
   return (
-    <Card className={`border border-turquoise/30 overflow-hidden ${className}`}>
-      <CardContent className="p-3">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-turquoise" />
-            <span className="font-medium">{format(currentTime, "EEEE, MMMM d, yyyy")}</span>
+    <Card className={`border-2 border-turquoise overflow-hidden text-center ${className}`}>
+      <CardContent className="p-4">
+        <div className="flex flex-col items-center justify-center gap-3">
+          <div className="flex items-center gap-3 w-full justify-center">
+            <Calendar className="h-6 w-6 text-turquoise" />
+            <span className="font-bold text-lg">{format(currentTime, "EEEE, MMMM d, yyyy")}</span>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-6">
             <div className="flex items-center gap-2">
-              <Clock className="h-5 w-5 text-coral" />
-              <span className="font-medium">{format(currentTime, "h:mm a")}</span>
+              <Clock className="h-6 w-6 text-orange" />
+              <span className="font-bold text-lg">{format(currentTime, "h:mm a")}</span>
             </div>
             
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3 justify-center">
               {homeLocation ? (
-                <div className="flex items-center gap-1">
-                  <Home className="h-5 w-5 text-primary" />
-                  <span className="text-sm">{homeLocation}</span>
+                <div className="flex items-center gap-2">
+                  <Home className="h-6 w-6 text-gold" />
+                  <span className="font-semibold">{homeLocation}</span>
                   <Dialog open={isHomeDialogOpen} onOpenChange={setIsHomeDialogOpen}>
                     <DialogTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full">
-                        <MapPin className="h-3.5 w-3.5" />
+                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-turquoise/10 hover:bg-turquoise/20">
+                        <MapPin className="h-4 w-4 text-turquoise" />
                       </Button>
                     </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Set Home Location</DialogTitle>
+                    <DialogContent className="border-2 border-turquoise">
+                      <DialogHeader className="center-all">
+                        <DialogTitle className="text-2xl font-bold text-turquoise">Set Home Location</DialogTitle>
                       </DialogHeader>
                       <div className="space-y-4 py-2">
                         <Input 
                           placeholder="Enter home location (e.g., City, State)" 
                           value={homeLocation}
                           onChange={(e) => setHomeLocation(e.target.value)}
+                          className="border-2 border-gold font-medium"
                         />
                         <Button 
-                          className="w-full bg-gradient-to-r from-turquoise to-primary text-black"
+                          className="w-full bg-gradient-to-r from-turquoise to-gold text-black font-bold text-base"
                           onClick={saveHomeLocation}
                         >
                           Save Location
@@ -115,23 +116,24 @@ export default function CalendarLocation({ className = "" }: CalendarLocationPro
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="text-xs h-8 border-dashed border-turquoise/50 text-turquoise"
+                      className="text-sm h-9 border-2 border-gold text-gold font-bold"
                     >
-                      <Home className="h-3.5 w-3.5 mr-1" /> Set Home
+                      <Home className="h-4 w-4 mr-2" /> Set Home
                     </Button>
                   </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Set Home Location</DialogTitle>
+                  <DialogContent className="border-2 border-turquoise">
+                    <DialogHeader className="center-all">
+                      <DialogTitle className="text-2xl font-bold text-turquoise">Set Home Location</DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4 py-2">
                       <Input 
                         placeholder="Enter home location (e.g., City, State)" 
                         value={homeLocation}
                         onChange={(e) => setHomeLocation(e.target.value)}
+                        className="border-2 border-gold font-medium"
                       />
                       <Button 
-                        className="w-full bg-gradient-to-r from-turquoise to-primary text-black"
+                        className="w-full bg-gradient-to-r from-turquoise to-gold text-black font-bold text-base"
                         onClick={saveHomeLocation}
                       >
                         Save Location
@@ -145,10 +147,10 @@ export default function CalendarLocation({ className = "" }: CalendarLocationPro
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="text-xs h-8 border-coral/50 text-coral"
+                  className="text-sm h-9 border-2 border-orange text-orange font-bold"
                   onClick={getLocation}
                 >
-                  <MapPin className="h-3.5 w-3.5 mr-1" /> Enable GPS
+                  <MapPin className="h-4 w-4 mr-2" /> Enable GPS
                 </Button>
               )}
               
@@ -156,18 +158,18 @@ export default function CalendarLocation({ className = "" }: CalendarLocationPro
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="text-xs h-8 border-coral/50 text-coral"
+                  className="text-sm h-9 border-2 border-orange text-orange font-bold"
                   disabled
                 >
-                  <span className="animate-spin h-3.5 w-3.5 mr-1 border-2 border-coral border-r-transparent rounded-full"></span>
+                  <span className="animate-spin h-4 w-4 mr-2 border-2 border-orange border-r-transparent rounded-full"></span>
                   Loading...
                 </Button>
               )}
               
               {locationStatus === "success" && location && (
-                <span className="text-xs text-muted-foreground">
-                  <MapPin className="h-3.5 w-3.5 inline-block text-coral" /> 
-                  Location found
+                <span className="font-semibold text-orange flex items-center">
+                  <MapPin className="h-4 w-4 mr-1 text-orange" /> 
+                  Location Active
                 </span>
               )}
               
@@ -175,10 +177,10 @@ export default function CalendarLocation({ className = "" }: CalendarLocationPro
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="text-xs h-8 border-red-500/50 text-red-500"
+                  className="text-sm h-9 border-2 border-orange text-orange font-bold"
                   onClick={getLocation}
                 >
-                  <MapPin className="h-3.5 w-3.5 mr-1" /> Retry GPS
+                  <MapPin className="h-4 w-4 mr-2" /> Retry GPS
                 </Button>
               )}
             </div>
