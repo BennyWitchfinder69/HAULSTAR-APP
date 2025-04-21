@@ -10,33 +10,39 @@ import { Truck, DollarSign, ChevronRight } from "lucide-react";
 import AdvertisementSpace from "./components/AdvertisementSpace";
 import TruckerPathIntegration from "./components/TruckerPathIntegration";
 import MobileNav from "./components/MobileNav";
+import CalendarLocation from "./components/CalendarLocation";
 
 function HomePage() {
   const [, setLocation] = useLocation();
   
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="border-b border-turquoise bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
             <Link href="/">
               <a className="flex items-center space-x-2">
                 <div className="w-10 h-10 overflow-hidden">
-                  <Truck className="h-8 w-8 text-primary" />
+                  <Truck className="h-8 w-8 text-turquoise" />
                 </div>
-                <span className="text-xl font-bold tracking-tight">HAULSTAR</span>
+                <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-turquoise to-primary bg-clip-text text-transparent">HAULSTAR</span>
               </a>
             </Link>
           </div>
           
           <nav className="flex items-center gap-4">
-            <Button onClick={() => setLocation("/dashboard")} variant="ghost">
+            <Button onClick={() => setLocation("/dashboard")} variant="ghost" className="hover:text-turquoise">
               Demo
             </Button>
-            <Button onClick={() => setLocation("/login")}>
+            <Button onClick={() => setLocation("/login")} className="bg-gradient-to-r from-turquoise to-coral text-white border-none">
               Get Started
             </Button>
           </nav>
+        </div>
+        
+        {/* Calendar and location bar */}
+        <div className="container py-2">
+          <CalendarLocation />
         </div>
       </header>
       
@@ -169,74 +175,83 @@ function DashboardPage() {
   
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="border-b border-turquoise bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
             <Link href="/">
               <a className="flex items-center space-x-2">
                 <div className="w-10 h-10 overflow-hidden">
-                  <Truck className="h-8 w-8 text-primary" />
+                  <Truck className="h-8 w-8 text-turquoise" />
                 </div>
-                <span className="text-xl font-bold tracking-tight">HAULSTAR</span>
+                <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-turquoise to-primary bg-clip-text text-transparent">HAULSTAR</span>
               </a>
             </Link>
           </div>
           
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/dashboard">
-              <a className="text-sm font-medium hover:text-primary">Dashboard</a>
+              <a className="text-sm font-medium hover:text-turquoise">Dashboard</a>
             </Link>
             <Link href="/expenses">
-              <a className="text-sm font-medium hover:text-primary">Expenses</a>
+              <a className="text-sm font-medium hover:text-turquoise">Expenses</a>
             </Link>
             <Link href="/income">
-              <a className="text-sm font-medium hover:text-primary">Income</a>
+              <a className="text-sm font-medium hover:text-coral">Income</a>
             </Link>
             <Link href="/goals">
               <a className="text-sm font-medium hover:text-primary">Goals</a>
             </Link>
           </nav>
         </div>
+        
+        {/* Calendar and location bar */}
+        <div className="container py-2">
+          <CalendarLocation />
+        </div>
       </header>
       
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-4 md:p-6">
         <div className="container mx-auto">
-          <div className="mb-6 flex flex-col md:flex-row md:justify-between md:items-center">
-            <div>
-              <h1 className="text-2xl font-bold">Dashboard</h1>
-              <p className="text-muted-foreground">Welcome to HaulStar</p>
-            </div>
-            <div className="mt-4 md:mt-0">
-              <AdvertisementSpace 
-                placement="dashboard_top"
-                className="w-full md:w-auto max-w-[400px]"
-              />
-            </div>
+          {/* Centered header with dashboard title */}
+          <div className="mb-6 text-center">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-turquoise via-primary to-coral bg-clip-text text-transparent inline-block">Dashboard</h1>
+            <div className="w-24 h-1 mx-auto mt-2 bg-gradient-to-r from-turquoise to-coral rounded-full"></div>
+            <p className="text-muted-foreground mt-2">Welcome to HaulStar</p>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Main content area - 3 columns on large screens */}
-            <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="md:col-span-2">
+          {/* Top ad - full width and centered */}
+          <div className="mb-8 flex justify-center">
+            <AdvertisementSpace 
+              placement="dashboard_top"
+              className="w-full max-w-[600px]"
+            />
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Main content area - wider on large screens */}
+            <div className="lg:col-span-8 grid grid-cols-1 gap-6">
+              <div className="bg-muted/30 rounded-lg p-4 flex justify-center items-center">
                 <img
                   src={"/assets/DALL·E 2025-04-20 19.01.44 - Logo for 'HaulStar' featuring a cab-over semi-truck inspired by the classic Kenworth K100 truck design. The truck should have a flat-nose, squared fro.webp"}
                   alt="Dashboard Preview"
-                  className="w-full h-auto rounded-lg shadow-lg"
+                  className="w-full max-w-[500px] h-auto rounded-lg shadow-lg"
                 />
               </div>
-              <div className="md:col-span-1">
-                <div className="h-full grid grid-rows-2 gap-4">
-                  <AdvertisementSpace 
-                    placement="dashboard_sidebar"
-                    className="h-full"
-                  />
-                  <AdvertisementSpace 
-                    placement="income_page"
-                    className="h-full"
-                  />
-                </div>
+              
+              {/* Double ad space in the main content */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <AdvertisementSpace 
+                  placement="dashboard_sidebar"
+                  className="h-full min-h-[180px]"
+                />
+                <AdvertisementSpace 
+                  placement="income_page"
+                  className="h-full min-h-[180px]"
+                />
               </div>
-              <div className="md:col-span-3">
+              
+              {/* Bottom full width ad */}
+              <div className="mt-4">
                 <AdvertisementSpace 
                   placement="dashboard_bottom"
                   className="w-full"
@@ -244,15 +259,21 @@ function DashboardPage() {
               </div>
             </div>
             
-            {/* Sidebar - 1 column on large screens */}
-            <div className="lg:col-span-1">
+            {/* Sidebar - 4 columns on large screens */}
+            <div className="lg:col-span-4">
               <div className="space-y-6">
                 {/* Import and use the TruckerPathIntegration component */}
                 <TruckerPathIntegration />
                 
-                {/* Add more sidebar widgets here */}
+                {/* Side advertisement */}
+                <AdvertisementSpace 
+                  placement="expenses_page"
+                  className="w-full min-h-[250px]"
+                />
+                
+                {/* Quick tips section */}
                 <div className="bg-muted rounded-lg p-4">
-                  <h3 className="font-semibold mb-2">Quick Tips</h3>
+                  <h3 className="font-semibold mb-2 text-center">Quick Tips</h3>
                   <ul className="text-sm space-y-2">
                     <li className="flex items-start">
                       <span className="inline-block bg-primary/20 text-primary rounded-full p-1 mr-2 mt-0.5">
@@ -280,6 +301,12 @@ function DashboardPage() {
                     </li>
                   </ul>
                 </div>
+                
+                {/* Additional ad space */}
+                <AdvertisementSpace 
+                  placement="goals_page"
+                  className="w-full min-h-[180px]"
+                />
               </div>
             </div>
           </div>

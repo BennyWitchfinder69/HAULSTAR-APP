@@ -2,6 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --turquoise: #40E0D0;
+  --gold: #FFD700;
+  --coral: #FF7F50;
+}
+
+.bg-turquoise {
+  background-color: var(--turquoise);
+}
+
+.bg-coral {
+  background-color: var(--coral);
+}
+
+.text-turquoise {
+  color: var(--turquoise);
+}
+
+.text-coral {
+  color: var(--coral);
+}
+
+.border-turquoise {
+  border-color: var(--turquoise);
+}
+
+.border-coral {
+  border-color: var(--coral);
+}
+
+/* Override background */
+.bg-background {
+  background-color: white;
+}
+
+.bg-muted {
+  background-color: #f0f9ff; /* Light blue background */
+}
+
+/* Override button styles */
+.btn-coral {
+  background-color: var(--coral);
+  color: white;
+}
+
+.btn-coral:hover {
+  background-color: #ff6a45;
+}
+
+.btn-turquoise {
+  background-color: var(--turquoise);
+  color: white;
+}
+
+.btn-turquoise:hover {
+  background-color: #36c7b5;
+}
+
 @layer base {
   * {
     @apply border-border;
