@@ -16,20 +16,19 @@ function HomePage() {
   const [, setLocation] = useLocation();
   
   return (
-    <div className="flex flex-col min-h-screen text-center">
+    <div className="flex flex-col min-h-screen text-center bg-logo">
       <header className="border-b-2 border-turquoise bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto text-center py-4">
           <div className="flex justify-center items-center mb-4">
             <Link href="/">
               <a className="flex flex-col items-center gap-1">
-                <img 
-                  src="/src/assets/haulstar-logo.webp" 
-                  alt="HaulStar Logo" 
-                  className="w-32 h-auto"
-                />
-                <span className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-turquoise via-gold to-orange bg-clip-text text-transparent">
-                  HAULSTAR
-                </span>
+                <div className="logo-container">
+                  <img 
+                    src="/src/assets/haulstar-logo-main.webp" 
+                    alt="HaulStar Logo" 
+                    className="w-full h-auto"
+                  />
+                </div>
               </a>
             </Link>
           </div>
@@ -198,20 +197,19 @@ function DashboardPage() {
   const { state } = useContext(AppContext);
   
   return (
-    <div className="flex flex-col min-h-screen text-center">
+    <div className="flex flex-col min-h-screen text-center bg-logo">
       <header className="border-b-2 border-turquoise bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto text-center py-4">
           <div className="flex justify-center items-center mb-4">
             <Link href="/">
               <a className="flex flex-col items-center gap-1">
-                <img 
-                  src="/src/assets/haulstar-logo.webp" 
-                  alt="HaulStar Logo" 
-                  className="w-32 h-auto"
-                />
-                <span className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-turquoise via-gold to-orange bg-clip-text text-transparent">
-                  HAULSTAR
-                </span>
+                <div className="logo-container">
+                  <img 
+                    src="/src/assets/haulstar-logo-main.webp" 
+                    alt="HaulStar Logo" 
+                    className="w-full h-auto"
+                  />
+                </div>
               </a>
             </Link>
           </div>
@@ -293,9 +291,9 @@ function DashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
             {/* Main content area */}
             <div className="md:col-span-8 flex flex-col items-center gap-8">
-              <div className="bg-muted rounded-xl border-2 border-turquoise p-6 flex justify-center items-center w-full">
+              <div className="bg-muted rounded-xl border-2 border-gold p-6 flex justify-center items-center w-full">
                 <img
-                  src="/src/assets/haulstar-logo.webp"
+                  src="/src/assets/haulstar-logo-main.webp"
                   alt="HaulStar Logo"
                   className="w-full max-w-[500px] h-auto rounded-lg shadow-lg"
                 />

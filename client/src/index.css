@@ -121,6 +121,34 @@
   text-align: center;
 }
 
+/* Background logo styles */
+.bg-logo {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.bg-logo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/src/assets/haulstar-logo-main.webp');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60%;
+  opacity: 0.05;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.logo-container {
+  max-width: 220px;
+  margin: 0 auto;
+}
+
 @layer base {
   * {
     @apply border-border;
