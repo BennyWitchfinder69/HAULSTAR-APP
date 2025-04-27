@@ -1,450 +1,276 @@
 import { useContext, useState } from "react";
 import { AppContext } from "../context/AppContext";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell
-} from "recharts";
-import { 
-  Plus, DollarSign, TrendingUp, BellRing, Settings, Truck, Calendar, 
-  Banknote, PiggyBank, PieChart as PieChartIcon, ArrowUp, ArrowDown, Loader2 
-} from "lucide-react";
-import DayLoggerModal from "../components/DayLoggerModal";
-import AddExpenseModal from "../components/AddExpenseModal";
+import GoalItem from "../components/GoalItem";
 import AddGoalModal from "../components/AddGoalModal";
+import AddExpenseModal from "../components/AddExpenseModal";
+import WhatIfModal from "../components/WhatIfModal";
+import WeekOffModal from "../components/WeekOffModal";
+import DayLoggerModal from "../components/DayLoggerModal";
+import PayStructureModal from "../components/PayStructureModal";
 
-// Sample data matching the dashboard layout
-const dailyStatsSample = [
-  { name: "Mon", income: 380 },
-  { name: "Tue", income: 420 },
-  { name: "Wed", income: 450 },
-  { name: "Thu", income: 520 },
-  { name: "Fri", income: 490 },
-  { name: "Sat", income: 400 },
-  { name: "Sun", income: 350 }
-];
-
-const monthlyStatsSample = [
-  { name: "Jan", income: 9000 },
-  { name: "Feb", income: 8700 },
-  { name: "Mar", income: 9300 },
-  { name: "Apr", income: 10100 },
-  { name: "May", income: 9800 },
-  { name: "Jun", income: 10200 }
-];
-
-const expenseBreakdownSample = [
-  { name: "Fuel", value: 35 },
-  { name: "Maintenance", value: 15 },
-  { name: "Insurance", value: 20 },
-  { name: "Food", value: 10 },
-  { name: "Other", value: 20 }
-];
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
-
-export default function DashboardPage() {
-  const { state } = useContext(AppContext);
-  const [isLogDayOpen, setIsLogDayOpen] = useState(false);
-  const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
-  const [isAddGoalOpen, setIsAddGoalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+export default function Dashboard() {
+  const { state, toggleHideIncome } = useContext(AppContext);
   
-  // Get today's date
-  const today = new Date();
-  const formattedDate = today.toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+  // Get the current URL and location
+  const currentUrl = window.location.href;
+  const params = new URLSearchParams(window.location.search);
+  const urlRole = params.get('role');
+  
+  // Modal states
+  const [addGoalModalOpen, setAddGoalModalOpen] = useState(false);
+  const [addExpenseModalOpen, setAddExpenseModalOpen] = useState(false);
+  const [whatIfModalOpen, setWhatIfModalOpen] = useState(false);
+  const [weekOffModalOpen, setWeekOffModalOpen] = useState(false);
+  const [dayLoggerModalOpen, setDayLoggerModalOpen] = useState(false);
+  const [payStructureModalOpen, setPayStructureModalOpen] = useState(false);
+  
+  // For this example, just force it to "Company Driver" when user clicks that card
+  const queryRole = urlRole === 'company' ? 'company' : state.role;
+  const forceCompanyDriver = sessionStorage.getItem('selectedCompany') === 'true';
+  
+  console.log("Dashboard role check:", { 
+    stateRole: state.role, 
+    urlRole, 
+    forceCompanyDriver, 
+    finalRole: forceCompanyDriver ? 'company' : queryRole || state.role || 'owner' 
   });
+  
+  // Driver type display text - forcing Company Driver for demonstration
+  const driverTypeText = forceCompanyDriver ? 'Company Driver' : 'Owner Operator';
+  
+  // Calculate monthly and weekly income/expenses for display
+  const monthlyIncome = 4500; // For demonstration, would be calculated from income logs
+  const weeklyIncome = monthlyIncome / 4.33;
+  
+  const monthlyExpenses = state.expenses.reduce((sum, expense) => sum + expense.monthly, 0) || 3200;
+  const weeklyExpenses = monthlyExpenses / 4.33;
 
-  // Format numbers with commas and dollar sign
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2
-    }).format(amount);
-  };
-  
-  // Calculate totals
-  const weeklyIncome = dailyStatsSample.reduce((sum, day) => sum + day.income, 0);
-  const monthlyIncome = 9800; // Sample value
-  const totalExpenses = 5823; // Sample value
-  const netIncome = monthlyIncome - totalExpenses;
-  
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6">
-      <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row items-start justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground">{formattedDate}</p>
-          </div>
-          <div className="flex mt-4 md:mt-0 space-x-2">
-            <Button onClick={() => setIsLogDayOpen(true)} className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Log Day
-            </Button>
+    <section className="py-4 pb-20">
+      {/* Available Cash Card */}
+      <div className="mb-6 bg-white rounded-xl shadow-md p-5">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold">{driverTypeText}</h2>
+          <div className="text-right">
+            <p className="text-neutral-500 text-sm">Available Cash</p>
+            <p className="text-2xl font-bold text-primary">
+              ${state.availableCash.toFixed(2)}
+            </p>
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Left Column */}
-          <div className="space-y-6">
-            {/* Daily Overview Card */}
-            <Card className="overflow-hidden">
-              <CardHeader className="bg-primary/10 pb-4">
-                <CardTitle className="flex items-center justify-between">
-                  <span>Daily Overview</span>
-                  <Truck className="h-5 w-5" />
-                </CardTitle>
-                <CardDescription>
-                  Today's performance metrics
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <div className="space-y-4">
-                  <div className="bg-muted p-4 rounded-lg">
-                    <div className="flex justify-between items-center mb-2">
-                      <h3 className="text-lg font-semibold">Miles Today</h3>
-                      <DollarSign className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                    <div className="flex items-baseline space-x-2">
-                      <span className="text-3xl font-bold">327</span>
-                      <span className="text-sm text-muted-foreground">miles</span>
-                    </div>
-                    <div className="flex items-center mt-2 text-sm text-green-500">
-                      <ArrowUp className="h-4 w-4 mr-1" />
-                      <span>12% from yesterday</span>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-muted p-4 rounded-lg">
-                    <div className="flex justify-between items-center mb-2">
-                      <h3 className="text-lg font-semibold">Today's Income</h3>
-                      <DollarSign className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                    <div className="flex items-baseline space-x-2">
-                      <span className="text-3xl font-bold">{formatCurrency(480)}</span>
-                    </div>
-                    <div className="flex items-center mt-2 text-sm text-green-500">
-                      <ArrowUp className="h-4 w-4 mr-1" />
-                      <span>8% from yesterday</span>
-                    </div>
-                  </div>
-                </div>
-                <Button
-                  variant="outline"
-                  className="w-full mt-6"
-                  onClick={() => setIsLogDayOpen(true)}
-                >
-                  Log Your Day
-                </Button>
-              </CardContent>
-            </Card>
+        <div className="grid grid-cols-2 gap-3">
+          <button 
+            onClick={() => setWeekOffModalOpen(true)}
+            className="flex-1 bg-primary text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-600 transition flex items-center justify-center"
+          >
+            <span className="material-icons mr-2">calendar_today</span>
+            Week Off?
+          </button>
+          <button 
+            onClick={() => setWhatIfModalOpen(true)}
+            className="flex-1 bg-white border border-primary text-primary py-3 px-4 rounded-lg font-medium hover:bg-blue-50 transition flex items-center justify-center"
+          >
+            <span className="material-icons mr-2">psychology</span>
+            What If?
+          </button>
+        </div>
+      </div>
+
+      {/* Goals Section */}
+      <div className="mb-6 bg-white rounded-xl shadow-md p-5">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold">Dream Sheet</h3>
+          <button 
+            onClick={() => setAddGoalModalOpen(true)}
+            className="text-primary hover:text-blue-700 p-1"
+          >
+            <span className="material-icons">add_circle</span>
+          </button>
+        </div>
+        
+        <div className="space-y-4">
+          {state.goals.map(goal => (
+            <GoalItem key={goal.id} goal={goal} />
+          ))}
+        </div>
+        
+        {state.goals.length === 0 && (
+          <div className="text-center py-4 text-neutral-500">
+            <p>Add your first financial goal</p>
+          </div>
+        )}
+      </div>
+
+      {/* Income & Expenses Section */}
+      <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <div className="flex-1 bg-white rounded-xl shadow-md p-5">
+          <div className="mb-4">
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-lg font-semibold">Income</h3>
+              <button 
+                onClick={() => setPayStructureModalOpen(true)}
+                className="text-primary hover:text-blue-700 p-1"
+                title="Add Pay Structure"
+              >
+                <span className="material-icons">add_circle</span>
+              </button>
+            </div>
             
-            {/* Current Week Card */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span>Weekly Stats</span>
-                  <Calendar className="h-5 w-5" />
-                </CardTitle>
-                <CardDescription>
-                  Performance for the current week
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <h3 className="font-medium">Weekly Income</h3>
-                      <span className="font-semibold">{formatCurrency(weeklyIncome)}</span>
-                    </div>
-                    <div className="h-[150px]">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={dailyStatsSample}>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                          <YAxis tick={{ fontSize: 12 }} />
-                          <Tooltip
-                            formatter={(value) => formatCurrency(Number(value))}
-                            labelFormatter={(label) => `${label}`}
-                          />
-                          <Bar dataKey="income" fill="#dc2626" radius={[4, 4, 0, 0]} />
-                        </BarChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="flex items-center justify-end">
+              <span className="text-xs text-neutral-500 mr-2">Hide Income</span>
+              <button 
+                onClick={() => toggleHideIncome(!state.hideIncome)} 
+                className={`w-8 h-4 rounded-full transition-colors duration-200 ease-in-out ${state.hideIncome ? 'bg-primary' : 'bg-neutral-300'} relative`}
+                aria-label="Toggle income visibility"
+              >
+                <span 
+                  className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-transform duration-200 ease-in-out ${state.hideIncome ? 'translate-x-4' : ''}`}
+                />
+              </button>
+            </div>
           </div>
           
-          {/* Middle Column */}
-          <div className="space-y-6">
-            {/* Income Stats */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span>Income</span>
-                  <Banknote className="h-5 w-5" />
-                </CardTitle>
-                <CardDescription>
-                  Monthly income overview
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div className="flex justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Monthly</p>
-                      <p className="text-2xl font-bold">{formatCurrency(monthlyIncome)}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">YTD</p>
-                      <p className="text-2xl font-bold">{formatCurrency(48200)}</p>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-sm font-medium mb-2">Last 6 Months</h3>
-                    <div className="h-[200px]">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={monthlyStatsSample}>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                          <YAxis tick={{ fontSize: 12 }} />
-                          <Tooltip 
-                            formatter={(value) => formatCurrency(Number(value))}
-                            labelFormatter={(label) => `${label}`}
-                          />
-                          <Line
-                            type="monotone"
-                            dataKey="income"
-                            stroke="#dc2626"
-                            strokeWidth={2}
-                            dot={{ r: 4 }}
-                            activeDot={{ r: 6 }}
-                          />
-                        </LineChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Expense Breakdown */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span>Expense Breakdown</span>
-                  <PieChartIcon className="h-5 w-5" />
-                </CardTitle>
-                <CardDescription>
-                  How your money is spent
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex">
-                  <div className="w-1/2">
-                    <div className="h-[180px]">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                          <Pie
-                            data={expenseBreakdownSample}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={40}
-                            outerRadius={70}
-                            fill="#8884d8"
-                            dataKey="value"
-                            labelLine={false}
-                          >
-                            {expenseBreakdownSample.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                          </Pie>
-                          <Tooltip 
-                            formatter={(value) => `${value}%`}
-                            labelFormatter={(label) => `${label}`}
-                          />
-                        </PieChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
-                  <div className="w-1/2 flex flex-col justify-center space-y-2">
-                    {expenseBreakdownSample.map((item, index) => (
-                      <div key={index} className="flex items-center">
-                        <div 
-                          className="w-3 h-3 rounded-full mr-2" 
-                          style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                        ></div>
-                        <span className="text-sm">{item.name}: {item.value}%</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <Button
-                  variant="outline"
-                  className="w-full mt-4"
-                  onClick={() => setIsAddExpenseOpen(true)}
-                >
-                  Manage Expenses
-                </Button>
-              </CardContent>
-            </Card>
+          <div className="text-center py-4">
+            <p className="text-neutral-500 text-sm">Monthly Average</p>
+            <p className="text-2xl font-bold text-success">
+              {state.hideIncome ? '****' : `$${monthlyIncome.toFixed(0)}`}
+            </p>
+            <p className="text-neutral-500 text-sm">
+              {state.hideIncome ? '****' : `$${weeklyIncome.toFixed(0)}`} weekly
+            </p>
           </div>
           
-          {/* Right Column */}
-          <div className="space-y-6">
-            {/* Financial Summary */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span>Financial Summary</span>
-                  <TrendingUp className="h-5 w-5" />
-                </CardTitle>
-                <CardDescription>
-                  Monthly performance snapshot
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-muted p-3 rounded-lg">
-                      <p className="text-sm text-muted-foreground">Income</p>
-                      <p className="text-lg font-bold">{formatCurrency(monthlyIncome)}</p>
-                    </div>
-                    <div className="bg-muted p-3 rounded-lg">
-                      <p className="text-sm text-muted-foreground">Expenses</p>
-                      <p className="text-lg font-bold">{formatCurrency(totalExpenses)}</p>
-                    </div>
+          {/* Display Pay Structures */}
+          {state.payStructures.length > 0 ? (
+            <div className="mt-2 mb-2 border-t border-neutral-100 pt-2">
+              <p className="text-sm font-medium mb-1">Pay Structures:</p>
+              <div className="space-y-1">
+                {state.payStructures.map(pay => (
+                  <div key={pay.id} className="flex justify-between items-center text-sm">
+                    <span className="text-neutral-700">
+                      {pay.payType === 'hourly' ? 'Hourly' : 
+                       pay.payType === 'per_mile' ? 'Per Mile' :
+                       pay.payType === 'per_load' ? 'Per Load' :
+                       pay.payType === 'bonus' ? 'Bonus' : 'Other'}
+                    </span>
+                    <span className="font-medium">
+                      {state.hideIncome ? '****' : `$${parseFloat(pay.rate.toString()).toFixed(2)}`}
+                    </span>
                   </div>
-                  
-                  <div className="bg-muted p-3 rounded-lg">
-                    <p className="text-sm text-muted-foreground">Net Income</p>
-                    <p className="text-lg font-bold">{formatCurrency(netIncome)}</p>
-                    <div className={`flex items-center mt-1 text-xs ${netIncome >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      {netIncome >= 0 ? (
-                        <>
-                          <ArrowUp className="h-3 w-3 mr-1" />
-                          <span>+{((netIncome / monthlyIncome) * 100).toFixed(1)}% margin</span>
-                        </>
-                      ) : (
-                        <>
-                          <ArrowDown className="h-3 w-3 mr-1" />
-                          <span>{((netIncome / monthlyIncome) * 100).toFixed(1)}% margin</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <h3 className="text-sm font-medium">Goal Progress</h3>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="h-6 text-xs"
-                        onClick={() => setIsAddGoalOpen(true)}
-                      >
-                        <Plus className="h-3 w-3 mr-1" /> Add Goal
-                      </Button>
-                    </div>
-                    
-                    {state.goals.length > 0 ? (
-                      <div className="space-y-3">
-                        {state.goals.map((goal, index) => (
-                          <div key={index}>
-                            <div className="flex justify-between text-sm mb-1">
-                              <span>{goal.name}</span>
-                              <span>{formatCurrency(goal.saved)} / {formatCurrency(goal.amount)}</span>
-                            </div>
-                            <Progress value={goal.progress} className="h-2" />
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="bg-muted p-6 rounded-lg text-center">
-                        <p className="text-muted-foreground text-sm">No goals yet</p>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          className="mt-2"
-                          onClick={() => setIsAddGoalOpen(true)}
-                        >
-                          Create your first goal
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Tax Estimates */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span>Tax Estimates</span>
-                  <Settings className="h-5 w-5" />
-                </CardTitle>
-                <CardDescription>
-                  Based on your current earnings
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-muted p-3 rounded-lg">
-                      <p className="text-sm text-muted-foreground">Federal</p>
-                      <p className="text-lg font-bold">{formatCurrency(1470)}</p>
-                    </div>
-                    <div className="bg-muted p-3 rounded-lg">
-                      <p className="text-sm text-muted-foreground">State</p>
-                      <p className="text-lg font-bold">{formatCurrency(490)}</p>
-                    </div>
-                    
-                    {/* Additional fields for Owner-Operators */}
-                    {state.role === "owner" && (
-                      <>
-                        <div className="bg-muted p-3 rounded-lg">
-                          <p className="text-sm text-muted-foreground">Self-Employment</p>
-                          <p className="text-lg font-bold">{formatCurrency(735)}</p>
-                        </div>
-                        <div className="bg-muted p-3 rounded-lg">
-                          <p className="text-sm text-muted-foreground">Quarterly Est.</p>
-                          <p className="text-lg font-bold">{formatCurrency(920)}</p>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                  
-                  <div className="bg-muted p-3 rounded-lg">
-                    <p className="text-sm text-muted-foreground">Total Estimated Tax</p>
-                    <p className="text-lg font-bold">{formatCurrency(state.role === "owner" ? 3615 : 1960)}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Based on {state.taxSettings?.stateName || "default"} rates
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="mt-2 mb-2 border-t border-neutral-100 pt-2 text-center text-neutral-500 text-sm">
+              <p>No pay structures defined</p>
+              <p className="text-xs text-primary">Click + to add your pay rates</p>
+            </div>
+          )}
+          
+          <button 
+            onClick={() => setDayLoggerModalOpen(true)} 
+            className="w-full bg-primary bg-opacity-10 text-primary py-2 px-4 rounded-lg font-medium hover:bg-opacity-20 transition flex items-center justify-center mt-2"
+          >
+            <span className="material-icons mr-2">add_task</span>
+            Log Today's Activity
+          </button>
+        </div>
+        
+        <div className="flex-1 bg-white rounded-xl shadow-md p-5">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold">Expenses</h3>
+            <button 
+              onClick={() => setAddExpenseModalOpen(true)}
+              className="text-primary hover:text-blue-700 p-1"
+            >
+              <span className="material-icons">add_circle</span>
+            </button>
           </div>
+          
+          <div className="text-center py-6">
+            <p className="text-neutral-500 text-sm">Monthly Total</p>
+            <p className="text-2xl font-bold text-danger">${monthlyExpenses.toFixed(0)}</p>
+            <p className="text-neutral-500 text-sm">${weeklyExpenses.toFixed(0)} weekly</p>
+          </div>
+          
+          <button 
+            onClick={() => alert("Expense categories breakdown would be shown here")}
+            className="w-full bg-neutral-200 text-neutral-700 py-2 px-4 rounded-lg font-medium hover:bg-neutral-300 transition flex items-center justify-center mt-2"
+          >
+            <span className="material-icons mr-2">pie_chart</span>
+            View Categories
+          </button>
         </div>
       </div>
       
+      {/* Insights Preview */}
+      <div className="bg-white rounded-xl shadow-md p-5 mb-6">
+        <h3 className="text-lg font-semibold mb-3">Insights</h3>
+        <div className="space-y-3">
+          <div className="flex items-center">
+            <div className="w-2/5">
+              <p className="text-sm font-medium">Savings Rate</p>
+            </div>
+            <div className="w-3/5 flex items-center">
+              <div className="w-full bg-neutral-200 rounded-full h-2.5">
+                <div className="bg-success h-2.5 rounded-full" style={{ width: "28%" }}></div>
+              </div>
+              <span className="ml-2 text-sm font-medium">28%</span>
+            </div>
+          </div>
+          
+          <div className="flex items-center">
+            <div className="w-2/5">
+              <p className="text-sm font-medium">Top Expense</p>
+            </div>
+            <div className="w-3/5">
+              <p className="text-sm">
+                <span className="font-medium">
+                  {state.expenses.length > 0 
+                    ? state.expenses.reduce((prev, current) => (prev.monthly > current.monthly) ? prev : current).name 
+                    : "Housing"}
+                </span> - <span className="text-neutral-500">
+                  {state.expenses.length > 0 
+                    ? "$" + state.expenses.reduce((prev, current) => (prev.monthly > current.monthly) ? prev : current).monthly.toFixed(0) + "/mo" 
+                    : "$1,200/mo"}
+                </span>
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-center">
+            <div className="w-2/5">
+              <p className="text-sm font-medium">Suggestion</p>
+            </div>
+            <div className="w-3/5">
+              <p className="text-sm text-neutral-600">
+                Cut food by $5/day = +$150/mo
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <button 
+          onClick={() => alert("Full insights view would be shown here")}
+          className="w-full mt-4 text-primary text-sm font-medium"
+        >
+          View Full Insights →
+        </button>
+      </div>
+
+      {/* Ad Banner */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 py-2 px-4 text-center text-sm text-neutral-600">
+        Sponsored: Fuel Cards | Truck Jobs | Finance Tools
+      </div>
+
       {/* Modals */}
-      <DayLoggerModal isOpen={isLogDayOpen} onClose={() => setIsLogDayOpen(false)} />
-      <AddExpenseModal isOpen={isAddExpenseOpen} onClose={() => setIsAddExpenseOpen(false)} />
-      <AddGoalModal isOpen={isAddGoalOpen} onClose={() => setIsAddGoalOpen(false)} />
-    </div>
+      <AddGoalModal isOpen={addGoalModalOpen} onClose={() => setAddGoalModalOpen(false)} />
+      <AddExpenseModal isOpen={addExpenseModalOpen} onClose={() => setAddExpenseModalOpen(false)} />
+      <WhatIfModal isOpen={whatIfModalOpen} onClose={() => setWhatIfModalOpen(false)} appState={state} />
+      <WeekOffModal isOpen={weekOffModalOpen} onClose={() => setWeekOffModalOpen(false)} appState={state} />
+      <DayLoggerModal isOpen={dayLoggerModalOpen} onClose={() => setDayLoggerModalOpen(false)} />
+      <PayStructureModal isOpen={payStructureModalOpen} onClose={() => setPayStructureModalOpen(false)} />
+    </section>
   );
 }
